@@ -7,6 +7,7 @@ import javax.inject.Inject;
 
 import dagger.android.DispatchingAndroidInjector;
 import dagger.android.HasActivityInjector;
+import douglas.com.br.testemarvel.data.local.PreferencesHelper;
 import douglas.com.br.testemarvel.inject.components.DaggerMyApplicationComponent;
 
 /**
@@ -21,6 +22,7 @@ public class MyApplication extends Application implements HasActivityInjector {
     public void onCreate() {
         super.onCreate();
         DaggerMyApplicationComponent.create().inject(this);
+        PreferencesHelper.initializeInstance(getApplicationContext());
     }
 
     @Override
