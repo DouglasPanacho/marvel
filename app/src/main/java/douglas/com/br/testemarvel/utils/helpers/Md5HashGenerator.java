@@ -2,12 +2,12 @@ package douglas.com.br.testemarvel.utils.helpers;
 
 import android.util.Log;
 
-import java.security.MessageDigest;
-import java.security.NoSuchAlgorithmException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.Locale;
 import java.util.TimeZone;
+
+import douglas.com.br.testemarvel.Constants;
 
 /**
  * Created by douglaspanacho on 30/11/2017.
@@ -16,13 +16,12 @@ import java.util.TimeZone;
 
 public class Md5HashGenerator {
 
-    public static String generateMd5(String keys) {
-        String mTimeStamp = getTimeStamp();
-        Log.i("ts", mTimeStamp);
-        keys = mTimeStamp + keys;
+    public static String generateMd5(String ts) {
+
+        ts = ts + Constants.PRIVATE_KEY + Constants.PUBLIC_KEY;
         try {
             java.security.MessageDigest md = java.security.MessageDigest.getInstance("MD5");
-            byte[] array = md.digest(keys.getBytes());
+            byte[] array = md.digest(ts.getBytes());
             StringBuffer sb = new StringBuffer();
             for (int i = 0; i < array.length; ++i) {
                 sb.append(Integer.toHexString((array[i] & 0xFF) | 0x100).substring(1, 3));
