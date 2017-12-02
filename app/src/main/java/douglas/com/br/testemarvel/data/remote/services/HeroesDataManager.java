@@ -17,8 +17,7 @@ public class HeroesDataManager {
 
     private HeroesService mService;
 
-
-
+    @Inject
     public HeroesDataManager() {
         mService = ServiceGenerator.createService(HeroesService.class, NetworkConstants.BASE_URL);
     }

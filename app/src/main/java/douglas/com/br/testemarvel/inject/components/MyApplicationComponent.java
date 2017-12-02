@@ -3,8 +3,11 @@ package douglas.com.br.testemarvel.inject.components;
 import javax.inject.Singleton;
 
 import dagger.Component;
+import douglas.com.br.testemarvel.data.remote.services.HeroesDataManager;
 import douglas.com.br.testemarvel.inject.modules.GeneralModule;
+import douglas.com.br.testemarvel.inject.modules.MainActivityModule;
 import douglas.com.br.testemarvel.inject.modules.MyApplicationModule;
+import douglas.com.br.testemarvel.ui.heroeslist_fragment.HeroesListFragment;
 import douglas.com.br.testemarvel.ui.main.MainActivity;
 
 /**
@@ -13,9 +16,8 @@ import douglas.com.br.testemarvel.ui.main.MainActivity;
 @Singleton
 @Component(modules = {MyApplicationModule.class, GeneralModule.class})
 public interface MyApplicationComponent {
-    void inject(MainActivity activity);
 
-    // void inject(MyFragment fragment);
     // void inject(MyService service);
 
+    HeroesDataManager providesHeroDataMAnager();
 }

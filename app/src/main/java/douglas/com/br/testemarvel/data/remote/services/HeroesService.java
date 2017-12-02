@@ -15,4 +15,8 @@ public interface HeroesService {
 
     @GET("characters")
     Observable<CharactersResponse> getCharacters(@Query("offset") int offset);
+
+
+//
+//    GET /v1/public/characters/{characterId}
 }

@@ -3,10 +3,14 @@
     xmlns:app="http://schemas.android.com/apk/res-auto">
     <item
         android:id="@+id/heroes_list"
+        android:enabled="true"
+        android:icon="@drawable/ic_hero"
         android:title="@string/placeholder_heroes_label"
         app:showAsAction="ifRoom" />
     <item
         android:id="@+id/favorites_list"
+        android:enabled="true"
         android:title="@string/placeholder_favorite_label"
+        android:icon="@drawable/star"
         app:showAsAction="ifRoom" />
 </menu>

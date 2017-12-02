@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <dimen name="heroes_item_height">250dp</dimen>
+    <dimen name="heroes_card_height">150dp</dimen>
+    <dimen name="horizontal_x_small_margin">4dp</dimen>
+    <dimen name="horizontal_small_margin">8dp</dimen>
+    <dimen name="horizontal_margin">16dp</dimen>
+    <dimen name="horizontal_medium_margin">24dp</dimen>
+    <dimen name="horizontal_large_margin">32dp</dimen>
+    <dimen name="vertical_small_margin">8dp</dimen>
+    <dimen name="vertical_margin">16dp</dimen>
+    <dimen name="vertical_medium_margin">24dp</dimen>
+    <dimen name="vertical_large_margin">32dp</dimen>
+    <dimen name="vertical_x_large_margin">40dp</dimen>
+    <dimen name="vertical_xx_large_margin">64dp</dimen>
+</resources>

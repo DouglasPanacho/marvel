@@ -16,6 +16,33 @@ public class CharactersResponse {
     public String etag;
     public Data data;
 
+    public Integer getCode() {
+        return code;
+    }
+
+    public String getStatus() {
+        return status;
+    }
+
+    public String getCopyright() {
+        return copyright;
+    }
+
+    public String getAttributionText() {
+        return attributionText;
+    }
+
+    public String getAttributionHTML() {
+        return attributionHTML;
+    }
+
+    public String getEtag() {
+        return etag;
+    }
+
+    public Data getData() {
+        return data;
+    }
 
     public class Comics {
 
@@ -24,6 +51,21 @@ public class CharactersResponse {
         public List<Object> items = null;
         public Integer returned;
 
+        public Integer getAvailable() {
+            return available;
+        }
+
+        public String getCollectionURI() {
+            return collectionURI;
+        }
+
+        public List<Object> getItems() {
+            return items;
+        }
+
+        public Integer getReturned() {
+            return returned;
+        }
     }
 
     public class Data {
@@ -34,6 +76,25 @@ public class CharactersResponse {
         public Integer count;
         public List<Result> results = null;
 
+        public Integer getOffset() {
+            return offset;
+        }
+
+        public Integer getLimit() {
+            return limit;
+        }
+
+        public Integer getTotal() {
+            return total;
+        }
+
+        public Integer getCount() {
+            return count;
+        }
+
+        public List<Result> getResults() {
+            return results;
+        }
     }
 
 
@@ -44,6 +105,21 @@ public class CharactersResponse {
         public List<Object> items = null;
         public Integer returned;
 
+        public Integer getAvailable() {
+            return available;
+        }
+
+        public String getCollectionURI() {
+            return collectionURI;
+        }
+
+        public List<Object> getItems() {
+            return items;
+        }
+
+        public Integer getReturned() {
+            return returned;
+        }
     }
 
 
@@ -61,6 +137,49 @@ public class CharactersResponse {
         public Events events;
         public List<Url> urls = null;
 
+        public Integer getId() {
+            return id;
+        }
+
+        public String getName() {
+            return name;
+        }
+
+        public String getDescription() {
+            return description;
+        }
+
+        public String getModified() {
+            return modified;
+        }
+
+        public Thumbnail getThumbnail() {
+            return thumbnail;
+        }
+
+        public String getResourceURI() {
+            return resourceURI;
+        }
+
+        public Comics getComics() {
+            return comics;
+        }
+
+        public Series getSeries() {
+            return series;
+        }
+
+        public Stories getStories() {
+            return stories;
+        }
+
+        public Events getEvents() {
+            return events;
+        }
+
+        public List<Url> getUrls() {
+            return urls;
+        }
     }
 
 
@@ -71,6 +190,21 @@ public class CharactersResponse {
         public List<Object> items = null;
         public Integer returned;
 
+        public Integer getAvailable() {
+            return available;
+        }
+
+        public String getCollectionURI() {
+            return collectionURI;
+        }
+
+        public List<Object> getItems() {
+            return items;
+        }
+
+        public Integer getReturned() {
+            return returned;
+        }
     }
 
 
@@ -81,6 +215,21 @@ public class CharactersResponse {
         public List<Object> items = null;
         public Integer returned;
 
+        public Integer getAvailable() {
+            return available;
+        }
+
+        public String getCollectionURI() {
+            return collectionURI;
+        }
+
+        public List<Object> getItems() {
+            return items;
+        }
+
+        public Integer getReturned() {
+            return returned;
+        }
     }
 
     public class Thumbnail {
@@ -88,6 +237,17 @@ public class CharactersResponse {
         public String path;
         public String extension;
 
+        public String getFullPath() {
+            return path+"."+getExtension();
+        }
+
+        public String getPath() {
+            return path;
+        }
+
+        public String getExtension() {
+            return extension;
+        }
     }
 
     public class Url {
@@ -95,5 +255,12 @@ public class CharactersResponse {
         public String type;
         public String url;
 
+        public String getType() {
+            return type;
+        }
+
+        public String getUrl() {
+            return url;
+        }
     }
 }
