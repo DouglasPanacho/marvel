@@ -1,3 +1,7 @@
 <resources>
     <string name="app_name">TesteMarvel</string>
+
+    <!--MENU ITEMS NAME-->
+    <string name="placeholder_favorite_label">Favoritos</string>
+    <string name="placeholder_heroes_label">Heróis</string>
 </resources>

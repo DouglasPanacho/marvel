@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+    <item
+        android:id="@+id/heroes_list"
+        android:title="@string/placeholder_heroes_label"
+        app:showAsAction="ifRoom" />
+    <item
+        android:id="@+id/favorites_list"
+        android:title="@string/placeholder_favorite_label"
+        app:showAsAction="ifRoom" />
+</menu>

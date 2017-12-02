@@ -11,12 +11,12 @@ import douglas.com.br.testemarvel.data.remote.services.HeroesDataManager;
  */
 
 @Module
-public class DataManagerModule {
+public class GeneralModule {
 
     @Singleton
     @Provides
     HeroesDataManager provideHeroesDataManager() {
-        return HeroesDataManager.getInstace();
+        return new HeroesDataManager();
     }
 
 
