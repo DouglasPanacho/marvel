@@ -4,5 +4,10 @@
     <!--MENU ITEMS NAME-->
     <string name="placeholder_favorite_label">Favoritos</string>
     <string name="placeholder_heroes_label">Heróis</string>
+
+    <!--TRANSITIONS-->
     <string name="transition_name">image_transition</string>
+
+    <!--DATABASE LABELS-->
+    <string name="heroes_database_name">heroes-database</string>
 </resources>

@@ -12,6 +12,9 @@ public class CustomListeners {
 
     public interface OnHeroClicked {
         void OnHeroClicked(CharactersResponse.Result hero);
+
+        void OnHeroFavorited(CharactersResponse.Result hero,boolean isFavorite);
+
         void OnHeroClicked(CharactersResponse.Result hero, View image, View name);
     }
 }

@@ -49,7 +49,7 @@ public class HeroDetailActivity extends BaseActivity {
 
     public void bind() {
         Glide.with(this).load(mHeroItem.getThumbnail().getFullPath()).apply(new RequestOptions().dontTransform()).into(mHeroIm);
-        setToolbar(mHeroItem.getName());
+        setToolbar(mHeroItem.getName(), true);
         mHeroDescriptionTv.setText(mHeroItem.getDescription());
     }
 

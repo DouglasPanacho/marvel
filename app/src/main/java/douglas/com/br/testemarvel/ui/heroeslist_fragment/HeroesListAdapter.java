@@ -103,7 +103,7 @@ public class HeroesListAdapter extends RecyclerView.Adapter {
         }
 
         public void bind(final int position) {
-            Glide.with(itemView.getContext()).load(mItems.get(position).getThumbnail().getFullPath()).into(mHeroIm);
+            Glide.with(itemView.getContext()).load(mItems.get(position).getThumbnail().getFullPath()).thumbnail(0.1f).into(mHeroIm);
             mHeroNameTv.setText(mItems.get(position).getName());
             if (!mItems.get(position).getDescription().isEmpty()) {
                 mHeroDescriptionTv.setVisibility(View.VISIBLE);

@@ -20,6 +20,8 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import douglas.com.br.testemarvel.Constants;
 import douglas.com.br.testemarvel.R;
+import douglas.com.br.testemarvel.data.AppDatabase;
+import douglas.com.br.testemarvel.data.local.Hero;
 import douglas.com.br.testemarvel.data.remote.models.response.CharactersResponse;
 import douglas.com.br.testemarvel.ui.base.BaseFragment;
 import douglas.com.br.testemarvel.ui.hero_detail.HeroDetailActivity;
@@ -38,6 +40,8 @@ public class HeroesListFragment extends BaseFragment implements HeroesListMvpVie
 
     @Inject
     HeroesListPresenter mPresenter;
+    @Inject
+    AppDatabase mDatabase;
     @Inject
     HeroesListAdapter mAdapter;
     @BindView(R.id.swiperefesh)
@@ -69,6 +73,16 @@ public class HeroesListFragment extends BaseFragment implements HeroesListMvpVie
             public void OnHeroClicked(CharactersResponse.Result hero) {
 
             }
+
+            @Override
+            public void OnHeroFavorited(CharactersResponse.Result hero, boolean isFavorite) {
+                if (isFavorite) {
+                    mDatabase.userDao().insertAll(new Hero(hero.getId(), hero.getName(), hero.getThumbnail().getFullPath(), hero.getDescription()));
+                } else {
+                    mDatabase.userDao().deleteHero(hero.getId());
+                }
+            }
+
 
             @Override
             public void OnHeroClicked(CharactersResponse.Result hero, View image, View name) {
