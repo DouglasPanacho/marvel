@@ -1,4 +1,4 @@
-package douglas.com.br.testemarvel.ui.adapters;
+package douglas.com.br.testemarvel.ui.heroeslist_fragment;
 
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -19,17 +19,17 @@ import douglas.com.br.testemarvel.data.remote.models.response.CharactersResponse
 import douglas.com.br.testemarvel.utils.helpers.CustomListeners;
 
 /**
- * Created by douglaspanacho on 02/12/2017.
+ * Created by douglaspanacho on 03/12/2017.
  */
 
-public class HeroesAdapter extends RecyclerView.Adapter {
+public class HeroListAdapter extends RecyclerView.Adapter {
 
     private List<CharactersResponse.Result> mItems;
     private CustomListeners.OnHeroClicked mListener;
     private int TYPE_LEFT = 0, TYPE_RIGHT = 1, TYPE_EMPTY = 2, TYPE_LOADING = 3;
 
 
-    public HeroesAdapter(List<CharactersResponse.Result> mItems) {
+    public HeroListAdapter(List<CharactersResponse.Result> mItems) {
         this.mItems = mItems;
     }
 

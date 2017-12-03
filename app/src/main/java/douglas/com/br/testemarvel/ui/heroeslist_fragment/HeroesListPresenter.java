@@ -1,5 +1,6 @@
 package douglas.com.br.testemarvel.ui.heroeslist_fragment;
 
+import douglas.com.br.testemarvel.data.AppDatabase;
 import douglas.com.br.testemarvel.data.remote.services.HeroesDataManager;
 import douglas.com.br.testemarvel.data.remote.models.response.CharactersResponse;
 import douglas.com.br.testemarvel.ui.base.BasePresenter;
@@ -16,12 +17,15 @@ public class HeroesListPresenter extends BasePresenter<HeroesListMvpView> {
 
     private HeroesListMvpView mMvpView;
 
+
     HeroesDataManager mDataManager;
+    AppDatabase mDataBase;
 
     private Disposable mDisposable;
 
-    public HeroesListPresenter(HeroesDataManager dataManager) {
+    public HeroesListPresenter(HeroesDataManager dataManager, AppDatabase database) {
         this.mDataManager = dataManager;
+        this.mDataBase = database;
     }
 
     @Override
@@ -61,8 +65,8 @@ public class HeroesListPresenter extends BasePresenter<HeroesListMvpView> {
         });
     }
 
-    public void getHeroesByName(int offset,String name) {
-        mDataManager.getCharacters(offset,name).subscribeOn(Schedulers.io()).observeOn(AndroidSchedulers.mainThread()).subscribe(new Observer<CharactersResponse>() {
+    public void getHeroesByName(int offset, String name) {
+        mDataManager.getCharacters(offset, name).subscribeOn(Schedulers.io()).observeOn(AndroidSchedulers.mainThread()).subscribe(new Observer<CharactersResponse>() {
             @Override
             public void onSubscribe(Disposable d) {
                 mDisposable = d;
@@ -84,4 +88,6 @@ public class HeroesListPresenter extends BasePresenter<HeroesListMvpView> {
             }
         });
     }
+
+
 }

@@ -139,6 +139,13 @@ public class CharactersResponse {
         public Stories stories;
         public Events events;
         public List<Url> urls = null;
+        public boolean isFavorite;
+
+        public boolean isFavorite() {
+            return isFavorite;
+        }
+
+
 
         public Result(Integer id, String name, String description, Thumbnail thumbnail) {
             this.id = id;

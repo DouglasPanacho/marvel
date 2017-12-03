@@ -20,7 +20,6 @@ import douglas.com.br.testemarvel.inject.components.DaggerActivityComponent;
 import douglas.com.br.testemarvel.inject.modules.MainActivityModule;
 import douglas.com.br.testemarvel.ui.base.BaseActivity;
 
-import douglas.com.br.testemarvel.ui.favorites_fragment.FavoritesFragment;
 import douglas.com.br.testemarvel.ui.heroeslist_fragment.HeroesListFragment;
 
 
@@ -28,7 +27,7 @@ public class MainActivity extends BaseActivity implements BottomNavigationView.O
 
 
     private HeroesListFragment mHeroesListFragment;
-    private FavoritesFragment mFavoritesListFragment;
+
     @Inject
     MainPagerAdapter mMainPagerAdapter;
 
@@ -94,11 +93,11 @@ public class MainActivity extends BaseActivity implements BottomNavigationView.O
         if (mHeroesListFragment == null) {
             mHeroesListFragment = HeroesListFragment.newInstance();
         }
-        if (mFavoritesListFragment == null) {
-            mFavoritesListFragment = FavoritesFragment.newInstance();
-        }
+//        if (mFavoritesListFragment == null) {
+//            mFavoritesListFragment = FavoritesFragment.newInstance();
+//        }
         mMainPagerAdapter.addFragment(mHeroesListFragment);
-        mMainPagerAdapter.addFragment(mFavoritesListFragment);
+    //    mMainPagerAdapter.addFragment(mFavoritesListFragment);
         mViewPager.setAdapter(mMainPagerAdapter);
     }
 
@@ -108,9 +107,9 @@ public class MainActivity extends BaseActivity implements BottomNavigationView.O
             case R.id.heroes_list:
                 mViewPager.setCurrentItem(0);
                 break;
-            case R.id.favorites_list:
-                mViewPager.setCurrentItem(1);
-                break;
+//            case R.id.favorites_list:
+//                mViewPager.setCurrentItem(1);
+//                break;
         }
         return true;
     }

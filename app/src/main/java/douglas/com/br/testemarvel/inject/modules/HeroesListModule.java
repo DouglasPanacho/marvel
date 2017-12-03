@@ -4,10 +4,11 @@ import java.util.ArrayList;
 
 import dagger.Module;
 import dagger.Provides;
+import douglas.com.br.testemarvel.data.AppDatabase;
 import douglas.com.br.testemarvel.data.remote.services.HeroesDataManager;
 import douglas.com.br.testemarvel.data.remote.models.response.CharactersResponse;
 import douglas.com.br.testemarvel.inject.UserScope;
-import douglas.com.br.testemarvel.ui.adapters.HeroesAdapter;
+import douglas.com.br.testemarvel.ui.heroeslist_fragment.HeroListAdapter;
 import douglas.com.br.testemarvel.ui.heroeslist_fragment.HeroesListPresenter;
 
 /**
@@ -19,13 +20,13 @@ public class HeroesListModule {
 
     @Provides
     @UserScope
-    HeroesListPresenter providesPresenter(HeroesDataManager dataManager) {
-        return new HeroesListPresenter(dataManager);
+    HeroesListPresenter providesPresenter(HeroesDataManager dataManager, AppDatabase database) {
+        return new HeroesListPresenter(dataManager, database);
     }
 
     @Provides
     @UserScope
-    HeroesAdapter providesAdapter() {
-        return new HeroesAdapter(new ArrayList<CharactersResponse.Result>());
+    HeroListAdapter providesAdapter() {
+        return new HeroListAdapter(new ArrayList<CharactersResponse.Result>());
     }
 }

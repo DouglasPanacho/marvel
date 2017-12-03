@@ -7,10 +7,10 @@
         android:icon="@drawable/ic_hero"
         android:title="@string/placeholder_heroes_label"
         app:showAsAction="ifRoom" />
-    <item
-        android:id="@+id/favorites_list"
-        android:enabled="true"
-        android:title="@string/placeholder_favorite_label"
-        android:icon="@drawable/ic_favorite"
-        app:showAsAction="ifRoom" />
+    <!--<item-->
+        <!--android:id="@+id/favorites_list"-->
+        <!--android:enabled="true"-->
+        <!--android:title="@string/placeholder_favorite_label"-->
+        <!--android:icon="@drawable/ic_favorite"-->
+        <!--app:showAsAction="ifRoom" />-->
 </menu>
