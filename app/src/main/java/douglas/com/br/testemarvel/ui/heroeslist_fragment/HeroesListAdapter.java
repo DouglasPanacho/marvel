@@ -88,6 +88,8 @@ public class HeroesListAdapter extends RecyclerView.Adapter {
         ImageView mHeroIm;
         @BindView(R.id.item_hero_name)
         TextView mHeroNameTv;
+        @BindView(R.id.item_hero_description)
+        TextView mHeroDescriptionTv;
 
         public HeroesListAdapteViewHolder(View itemView) {
             super(itemView);
@@ -97,6 +99,12 @@ public class HeroesListAdapter extends RecyclerView.Adapter {
         public void bind(int position) {
             Glide.with(itemView.getContext()).load(mItems.get(position).getThumbnail().getFullPath()).into(mHeroIm);
             mHeroNameTv.setText(mItems.get(position).getName());
+            if (!mItems.get(position).getDescription().isEmpty()) {
+                mHeroDescriptionTv.setVisibility(View.VISIBLE);
+                mHeroDescriptionTv.setText(mItems.get(position).getDescription());
+            } else {
+                mHeroDescriptionTv.setVisibility(View.GONE);
+            }
         }
     }
 
