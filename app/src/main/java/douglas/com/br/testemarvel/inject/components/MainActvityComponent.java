@@ -6,6 +6,7 @@ import dagger.Component;
 import dagger.Module;
 import douglas.com.br.testemarvel.inject.ActivityContext;
 import douglas.com.br.testemarvel.inject.PerActivity;
+import douglas.com.br.testemarvel.inject.UserScope;
 import douglas.com.br.testemarvel.inject.modules.MainActivityModule;
 import douglas.com.br.testemarvel.ui.main.MainActivity;
 import douglas.com.br.testemarvel.ui.main.MainPagerAdapter;
@@ -13,9 +14,9 @@ import douglas.com.br.testemarvel.ui.main.MainPagerAdapter;
 /**
  * Created by douglaspanacho on 02/12/2017.
  */
-@PerActivity
-@Component(modules = {MainActivityModule.class})
-public interface ActivityComponent {
+@UserScope
+@Component(modules = {MainActivityModule.class}, dependencies = {MyApplicationComponent.class})
+public interface MainActvityComponent {
     void inject(MainActivity activity);
 
 }

@@ -14,23 +14,26 @@ import javax.inject.Inject;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
+import douglas.com.br.testemarvel.MyApplication;
 import douglas.com.br.testemarvel.R;
 import douglas.com.br.testemarvel.data.remote.services.HeroesDataManager;
-import douglas.com.br.testemarvel.inject.components.DaggerActivityComponent;
+import douglas.com.br.testemarvel.inject.components.DaggerMainActvityComponent;
 import douglas.com.br.testemarvel.inject.modules.MainActivityModule;
 import douglas.com.br.testemarvel.ui.base.BaseActivity;
 
+import douglas.com.br.testemarvel.ui.base.MvpView;
 import douglas.com.br.testemarvel.ui.heroeslist_fragment.HeroesListFragment;
 
 
-public class MainActivity extends BaseActivity implements BottomNavigationView.OnNavigationItemSelectedListener {
+public class MainActivity extends BaseActivity implements MainMvpView, BottomNavigationView.OnNavigationItemSelectedListener {
 
 
     private HeroesListFragment mHeroesListFragment;
 
     @Inject
     MainPagerAdapter mMainPagerAdapter;
-
+    @Inject
+    MainPresenter mPresenter;
     @Inject
     HeroesDataManager mDataManager;
     @BindView(R.id.main_bottom_navigation)
@@ -42,11 +45,13 @@ public class MainActivity extends BaseActivity implements BottomNavigationView.O
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        DaggerMainActvityComponent.builder().myApplicationComponent(((MyApplication) getApplication()).getMyApplicationComponent())
+                .mainActivityModule(new MainActivityModule(this)).build().inject(this);
         setContentView(R.layout.activity_main);
         ButterKnife.bind(this);
         setToolbar("TesteMarvel");
-        DaggerActivityComponent.builder().mainActivityModule(new MainActivityModule(this)).build().inject(this);
         setupViewPagerAdapter();
+        mPresenter.attachView(this);
         mBotttomNavigationView.setOnNavigationItemSelectedListener(this);
     }
 
@@ -60,7 +65,8 @@ public class MainActivity extends BaseActivity implements BottomNavigationView.O
         searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
             @Override
             public boolean onQueryTextSubmit(String query) {
-                mHeroesListFragment.searchHero(query);
+                mHeroesListFragment.startLoading();
+                mPresenter.getHeroesByName(0, query);
                 return true;
             }
 
@@ -85,7 +91,6 @@ public class MainActivity extends BaseActivity implements BottomNavigationView.O
         return true;
     }
 
-
     /**
      * used to setup my fragments inside viewpager
      */
@@ -93,11 +98,7 @@ public class MainActivity extends BaseActivity implements BottomNavigationView.O
         if (mHeroesListFragment == null) {
             mHeroesListFragment = HeroesListFragment.newInstance();
         }
-//        if (mFavoritesListFragment == null) {
-//            mFavoritesListFragment = FavoritesFragment.newInstance();
-//        }
         mMainPagerAdapter.addFragment(mHeroesListFragment);
-    //    mMainPagerAdapter.addFragment(mFavoritesListFragment);
         mViewPager.setAdapter(mMainPagerAdapter);
     }
 
@@ -107,10 +108,32 @@ public class MainActivity extends BaseActivity implements BottomNavigationView.O
             case R.id.heroes_list:
                 mViewPager.setCurrentItem(0);
                 break;
-//            case R.id.favorites_list:
-//                mViewPager.setCurrentItem(1);
-//                break;
         }
         return true;
+    }
+
+    @Override
+    public void showProgress() {
+
+    }
+
+    @Override
+    public void hideProgress() {
+
+    }
+
+    @Override
+    public void showError() {
+
+    }
+
+    @Override
+    public void showError(String error) {
+
+    }
+
+    @Override
+    public <T> void setResult(T result) {
+        mHeroesListFragment.setSearchResult(result);
     }
 }

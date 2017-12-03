@@ -6,8 +6,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 
 import douglas.com.br.testemarvel.R;
-import douglas.com.br.testemarvel.inject.components.ActivityComponent;
-import douglas.com.br.testemarvel.inject.modules.MainActivityModule;
+import douglas.com.br.testemarvel.inject.components.MainActvityComponent;
 
 /**
  * Created by douglaspanacho on 26/11/2017.
@@ -15,7 +14,7 @@ import douglas.com.br.testemarvel.inject.modules.MainActivityModule;
 
 public class BaseActivity extends AppCompatActivity {
 
-    private ActivityComponent mComponent;
+    private MainActvityComponent mComponent;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -33,7 +32,7 @@ public class BaseActivity extends AppCompatActivity {
         setTitle(title);
     }
 
-    public ActivityComponent getComponent() {
+    public MainActvityComponent getComponent() {
         return mComponent;
     }
 }

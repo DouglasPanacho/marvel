@@ -36,7 +36,6 @@ public class HeroesListFragment extends BaseFragment implements HeroesListMvpVie
 
     private int mCurrentOffset = 0;
     private List<CharactersResponse.Result> mItems = new ArrayList<>();
-    private boolean isSearching = false;
 
     @Inject
     HeroesListPresenter mPresenter;
@@ -106,14 +105,8 @@ public class HeroesListFragment extends BaseFragment implements HeroesListMvpVie
         mAdapter.updateItems(mItems);
     }
 
-    //colocar isso na main e só passar os resultados
-    public void searchHero(String name) {
-        isSearching = true;
-        mPresenter.getHeroesByName(0, name);
-    }
 
     public void clearSearch() {
-        isSearching = false;
         mAdapter.updateItems(mItems);
     }
 
@@ -138,15 +131,18 @@ public class HeroesListFragment extends BaseFragment implements HeroesListMvpVie
 
     }
 
+    public void startLoading(){
+        mAdapter.clearItems();
+    }
+
+    public <T> void setSearchResult(T result) {
+        setItemsAdapter(((CharactersResponse) result).getData().getResults());
+    }
+
     @Override
     public <T> void setResult(T result) {
-        if (!isSearching) {
-            mItems.addAll(((CharactersResponse) result).getData().getResults());
-            setItemsAdapter(mItems);
-        } else {
-            setItemsAdapter(((CharactersResponse) result).getData().getResults());
-        }
-
+        mItems.addAll(((CharactersResponse) result).getData().getResults());
+        setItemsAdapter(mItems);
     }
 
     @Override

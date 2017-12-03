@@ -3,6 +3,7 @@ package douglas.com.br.testemarvel;
 import android.app.Application;
 
 import douglas.com.br.testemarvel.inject.components.DaggerHeroesListComponent;
+import douglas.com.br.testemarvel.inject.components.DaggerMainActvityComponent;
 import douglas.com.br.testemarvel.inject.components.DaggerMyApplicationComponent;
 import douglas.com.br.testemarvel.inject.components.HeroesListComponent;
 import douglas.com.br.testemarvel.inject.components.MyApplicationComponent;
@@ -32,5 +33,6 @@ public class MyApplication extends Application {
     public HeroesListComponent getmHeroListComponent() {
         return mHeroListComponent;
     }
+
 
 }
