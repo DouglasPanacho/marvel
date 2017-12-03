@@ -24,7 +24,7 @@
                 android:name="android.app.searchable"
                 android:resource="@xml/searchable" />
         </activity>
-        <activity android:name=".ui.search_results.SearchResultsActivity" />
+        <activity android:name=".ui.hero_detail.HeroDetailActivity" />
     </application>
 
 </manifest>

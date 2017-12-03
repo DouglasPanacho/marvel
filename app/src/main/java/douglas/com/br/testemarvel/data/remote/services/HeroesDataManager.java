@@ -1,12 +1,10 @@
 package douglas.com.br.testemarvel.data.remote.services;
 
-import java.util.List;
-
 import javax.inject.Inject;
 
 import douglas.com.br.testemarvel.NetworkConstants;
 import douglas.com.br.testemarvel.data.remote.ServiceGenerator;
-import douglas.com.br.testemarvel.data.remote.services.response.CharactersResponse;
+import douglas.com.br.testemarvel.data.remote.models.response.CharactersResponse;
 import io.reactivex.Observable;
 
 /**

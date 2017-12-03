@@ -1,9 +1,7 @@
 package douglas.com.br.testemarvel.ui.heroeslist_fragment;
 
-import javax.inject.Inject;
-
 import douglas.com.br.testemarvel.data.remote.services.HeroesDataManager;
-import douglas.com.br.testemarvel.data.remote.services.response.CharactersResponse;
+import douglas.com.br.testemarvel.data.remote.models.response.CharactersResponse;
 import douglas.com.br.testemarvel.ui.base.BasePresenter;
 import io.reactivex.Observer;
 import io.reactivex.android.schedulers.AndroidSchedulers;

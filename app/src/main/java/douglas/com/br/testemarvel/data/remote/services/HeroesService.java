@@ -1,8 +1,6 @@
 package douglas.com.br.testemarvel.data.remote.services;
 
-import java.util.List;
-
-import douglas.com.br.testemarvel.data.remote.services.response.CharactersResponse;
+import douglas.com.br.testemarvel.data.remote.models.response.CharactersResponse;
 import io.reactivex.Observable;
 import retrofit2.http.GET;
 import retrofit2.http.Query;

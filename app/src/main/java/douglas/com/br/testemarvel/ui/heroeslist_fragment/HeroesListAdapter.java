@@ -15,7 +15,8 @@ import java.util.List;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import douglas.com.br.testemarvel.R;
-import douglas.com.br.testemarvel.data.remote.services.response.CharactersResponse;
+import douglas.com.br.testemarvel.data.remote.models.response.CharactersResponse;
+import douglas.com.br.testemarvel.utils.helpers.CustomListeners;
 
 /**
  * Created by douglaspanacho on 02/12/2017.
@@ -24,11 +25,16 @@ import douglas.com.br.testemarvel.data.remote.services.response.CharactersRespon
 public class HeroesListAdapter extends RecyclerView.Adapter {
 
     private List<CharactersResponse.Result> mItems;
+    private CustomListeners.OnHeroClicked mListener;
     private int TYPE_LEFT = 0, TYPE_RIGHT = 1, TYPE_EMPTY = 2, TYPE_LOADING = 3;
 
 
     public HeroesListAdapter(List<CharactersResponse.Result> mItems) {
         this.mItems = mItems;
+    }
+
+    public void setListener(CustomListeners.OnHeroClicked listener) {
+        mListener = listener;
     }
 
     //update mitems and notify that the data has changed
@@ -96,7 +102,7 @@ public class HeroesListAdapter extends RecyclerView.Adapter {
             ButterKnife.bind(this, itemView);
         }
 
-        public void bind(int position) {
+        public void bind(final int position) {
             Glide.with(itemView.getContext()).load(mItems.get(position).getThumbnail().getFullPath()).into(mHeroIm);
             mHeroNameTv.setText(mItems.get(position).getName());
             if (!mItems.get(position).getDescription().isEmpty()) {
@@ -105,6 +111,12 @@ public class HeroesListAdapter extends RecyclerView.Adapter {
             } else {
                 mHeroDescriptionTv.setVisibility(View.GONE);
             }
+            itemView.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    mListener.OnHeroClicked(mItems.get(position), mHeroIm, mHeroNameTv);
+                }
+            });
         }
     }
 

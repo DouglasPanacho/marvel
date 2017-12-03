@@ -45,6 +45,7 @@ public class MainActivity extends BaseActivity implements BottomNavigationView.O
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         ButterKnife.bind(this);
+        setToolbar("TesteMarvel");
         DaggerActivityComponent.builder().mainActivityModule(new MainActivityModule(this)).build().inject(this);
         setupViewPagerAdapter();
         mBotttomNavigationView.setOnNavigationItemSelectedListener(this);

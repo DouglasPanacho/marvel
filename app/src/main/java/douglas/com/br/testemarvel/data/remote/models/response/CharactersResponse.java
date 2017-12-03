@@ -1,4 +1,7 @@
-package douglas.com.br.testemarvel.data.remote.services.response;
+package douglas.com.br.testemarvel.data.remote.models.response;
+
+import android.os.Parcel;
+import android.os.Parcelable;
 
 import java.util.List;
 
@@ -123,7 +126,7 @@ public class CharactersResponse {
     }
 
 
-    public class Result {
+    public static class Result implements Parcelable {
 
         public Integer id;
         public String name;
@@ -136,6 +139,52 @@ public class CharactersResponse {
         public Stories stories;
         public Events events;
         public List<Url> urls = null;
+
+        protected Result(Parcel in) {
+            if (in.readByte() == 0) {
+                id = null;
+            } else {
+                id = in.readInt();
+            }
+            name = in.readString();
+            description = in.readString();
+            modified = in.readString();
+            resourceURI = in.readString();
+            thumbnail = in.readParcelable(Thumbnail.class.getClassLoader());
+
+        }
+
+        @Override
+        public void writeToParcel(Parcel dest, int flags) {
+            if (id == null) {
+                dest.writeByte((byte) 0);
+            } else {
+                dest.writeByte((byte) 1);
+                dest.writeInt(id);
+            }
+            dest.writeString(name);
+            dest.writeString(description);
+            dest.writeString(modified);
+            dest.writeString(resourceURI);
+            dest.writeParcelable(thumbnail, 0);
+        }
+
+        @Override
+        public int describeContents() {
+            return 0;
+        }
+
+        public static final Creator<Result> CREATOR = new Creator<Result>() {
+            @Override
+            public Result createFromParcel(Parcel in) {
+                return new Result(in);
+            }
+
+            @Override
+            public Result[] newArray(int size) {
+                return new Result[size];
+            }
+        };
 
         public Integer getId() {
             return id;
@@ -232,13 +281,30 @@ public class CharactersResponse {
         }
     }
 
-    public class Thumbnail {
+    public static class Thumbnail implements Parcelable {
 
         public String path;
         public String extension;
 
+        protected Thumbnail(Parcel in) {
+            path = in.readString();
+            extension = in.readString();
+        }
+
+        public static final Creator<Thumbnail> CREATOR = new Creator<Thumbnail>() {
+            @Override
+            public Thumbnail createFromParcel(Parcel in) {
+                return new Thumbnail(in);
+            }
+
+            @Override
+            public Thumbnail[] newArray(int size) {
+                return new Thumbnail[size];
+            }
+        };
+
         public String getFullPath() {
-            return path+"."+getExtension();
+            return path + "." + getExtension();
         }
 
         public String getPath() {
@@ -247,6 +313,17 @@ public class CharactersResponse {
 
         public String getExtension() {
             return extension;
+        }
+
+        @Override
+        public int describeContents() {
+            return 0;
+        }
+
+        @Override
+        public void writeToParcel(Parcel parcel, int i) {
+            parcel.writeString(path);
+            parcel.writeString(extension);
         }
     }
 

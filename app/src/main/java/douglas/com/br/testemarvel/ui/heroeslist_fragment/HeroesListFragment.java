@@ -1,8 +1,9 @@
 package douglas.com.br.testemarvel.ui.heroeslist_fragment;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
-import android.support.v4.app.Fragment;
+import android.support.v4.app.ActivityOptionsCompat;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -11,20 +12,18 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import java.util.ArrayList;
-import java.util.Collection;
 import java.util.List;
 
 import javax.inject.Inject;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
-import dagger.android.AndroidInjection;
-import douglas.com.br.testemarvel.MyApplication;
+import douglas.com.br.testemarvel.Constants;
 import douglas.com.br.testemarvel.R;
-import douglas.com.br.testemarvel.data.remote.services.HeroesDataManager;
-import douglas.com.br.testemarvel.data.remote.services.response.CharactersResponse;
+import douglas.com.br.testemarvel.data.remote.models.response.CharactersResponse;
 import douglas.com.br.testemarvel.ui.base.BaseFragment;
-import douglas.com.br.testemarvel.ui.main.MainPagerAdapter;
+import douglas.com.br.testemarvel.ui.hero_detail.HeroDetailActivity;
+import douglas.com.br.testemarvel.utils.helpers.CustomListeners;
 
 /**
  * Created by douglaspanacho on 30/11/2017.
@@ -65,6 +64,22 @@ public class HeroesListFragment extends BaseFragment implements HeroesListMvpVie
     }
 
     private void setupAdapter() {
+        mAdapter.setListener(new CustomListeners.OnHeroClicked() {
+            @Override
+            public void OnHeroClicked(CharactersResponse.Result hero) {
+
+            }
+
+            @Override
+            public void OnHeroClicked(CharactersResponse.Result hero, View image, View name) {
+                Intent intent = new Intent(getActivity(), HeroDetailActivity.class);
+                intent.putExtra(Constants.HERO_EXTRA, hero);
+                ActivityOptionsCompat options = ActivityOptionsCompat.
+                        makeSceneTransitionAnimation(getActivity(), image, getString(R.string.transition_name));
+                startActivity(intent, options.toBundle());
+
+            }
+        });
         mHeroesRv.setLayoutManager(new LinearLayoutManager(getContext(), LinearLayoutManager.VERTICAL, false));
         mHeroesRv.setAdapter(mAdapter);
     }
