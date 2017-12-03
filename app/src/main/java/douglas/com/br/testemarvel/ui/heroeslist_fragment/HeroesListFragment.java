@@ -10,6 +10,8 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import java.util.ArrayList;
+import java.util.Collection;
 import java.util.List;
 
 import javax.inject.Inject;
@@ -32,6 +34,8 @@ public class HeroesListFragment extends BaseFragment implements HeroesListMvpVie
 
 
     private int mCurrentOffset = 0;
+    private List<CharactersResponse.Result> mItems = new ArrayList<>();
+    private boolean isSearching = false;
 
     @Inject
     HeroesListPresenter mPresenter;
@@ -69,11 +73,22 @@ public class HeroesListFragment extends BaseFragment implements HeroesListMvpVie
         mPresenter.getHeroes(offset);
     }
 
-    private void setItemsAdapter(CharactersResponse mItems) {
-        mAdapter.updateItems(mItems.getData().getResults());
+    private void setItemsAdapter(List<CharactersResponse.Result> mItems) {
+        mAdapter.updateItems(mItems);
+    }
+
+    public void searchHero(String name) {
+        isSearching = true;
+        mPresenter.getHeroesByName(0, name);
+    }
+
+    public void clearSearch() {
+        isSearching = false;
+        mAdapter.updateItems(mItems);
     }
 
     @Override
+
     public void showProgress() {
         mSwipeRefresh.setRefreshing(true);
     }
@@ -95,7 +110,12 @@ public class HeroesListFragment extends BaseFragment implements HeroesListMvpVie
 
     @Override
     public <T> void setResult(T result) {
-        setItemsAdapter((CharactersResponse) result);
+        if (!isSearching) {
+            mItems.addAll(((CharactersResponse) result).getData().getResults());
+            setItemsAdapter(mItems);
+        } else {
+            setItemsAdapter(((CharactersResponse) result).getData().getResults());
+        }
 
     }
 

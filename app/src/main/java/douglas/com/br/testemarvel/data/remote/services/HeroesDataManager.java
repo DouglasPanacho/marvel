@@ -27,4 +27,8 @@ public class HeroesDataManager {
         return mService.getCharacters(offset);
     }
 
+    public Observable<CharactersResponse> getCharacters(int offset, String name) {
+        return mService.getCharacters(offset, name);
+    }
+
 }

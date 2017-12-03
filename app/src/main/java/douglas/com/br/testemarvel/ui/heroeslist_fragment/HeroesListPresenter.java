@@ -62,4 +62,28 @@ public class HeroesListPresenter extends BasePresenter<HeroesListMvpView> {
             }
         });
     }
+
+    public void getHeroesByName(int offset,String name) {
+        mDataManager.getCharacters(offset,name).subscribeOn(Schedulers.io()).observeOn(AndroidSchedulers.mainThread()).subscribe(new Observer<CharactersResponse>() {
+            @Override
+            public void onSubscribe(Disposable d) {
+                mDisposable = d;
+            }
+
+            @Override
+            public void onNext(CharactersResponse charactersResponse) {
+                mMvpView.setResult(charactersResponse);
+            }
+
+            @Override
+            public void onError(Throwable e) {
+
+            }
+
+            @Override
+            public void onComplete() {
+
+            }
+        });
+    }
 }

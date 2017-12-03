@@ -9,6 +9,7 @@ import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import butterknife.BindView;
@@ -30,9 +31,15 @@ public class HeroesListAdapter extends RecyclerView.Adapter {
         this.mItems = mItems;
     }
 
+    //update mitems and notify that the data has changed
     public void updateItems(List<CharactersResponse.Result> items) {
-        mItems.addAll(items);
-        notifyItemRangeInserted(mItems.size(), getItemCount());
+        mItems = items;
+        notifyDataSetChanged();
+    }
+
+    public void clearItems() {
+        mItems = new ArrayList<>();
+        notifyDataSetChanged();
     }
 
     @Override

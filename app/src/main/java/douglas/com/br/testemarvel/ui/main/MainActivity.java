@@ -1,9 +1,13 @@
 package douglas.com.br.testemarvel.ui.main;
 
+import android.app.SearchManager;
+import android.content.Context;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.design.widget.BottomNavigationView;
 import android.support.v4.view.ViewPager;
+import android.support.v7.widget.SearchView;
+import android.view.Menu;
 import android.view.MenuItem;
 
 import javax.inject.Inject;
@@ -26,7 +30,7 @@ public class MainActivity extends BaseActivity implements BottomNavigationView.O
     private HeroesListFragment mHeroesListFragment;
     private FavoritesFragment mFavoritesListFragment;
     @Inject
-     MainPagerAdapter mMainPagerAdapter;
+    MainPagerAdapter mMainPagerAdapter;
 
     @Inject
     HeroesDataManager mDataManager;
@@ -44,6 +48,41 @@ public class MainActivity extends BaseActivity implements BottomNavigationView.O
         DaggerActivityComponent.builder().mainActivityModule(new MainActivityModule(this)).build().inject(this);
         setupViewPagerAdapter();
         mBotttomNavigationView.setOnNavigationItemSelectedListener(this);
+    }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        getMenuInflater().inflate(R.menu.main_menu, menu);
+        MenuItem searchMenuItem = menu.findItem(R.id.search);
+        SearchManager searchManager = (SearchManager) getSystemService(Context.SEARCH_SERVICE);
+        SearchView searchView = (SearchView) menu.findItem(R.id.search).getActionView();
+        searchView.setSearchableInfo(searchManager.getSearchableInfo(getComponentName()));
+        searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
+            @Override
+            public boolean onQueryTextSubmit(String query) {
+                mHeroesListFragment.searchHero(query);
+                return true;
+            }
+
+            @Override
+            public boolean onQueryTextChange(String newText) {
+                return false;
+            }
+        });
+        searchMenuItem.setOnActionExpandListener(new MenuItem.OnActionExpandListener() {
+
+            @Override
+            public boolean onMenuItemActionExpand(MenuItem item) {
+                return true;
+            }
+
+            @Override
+            public boolean onMenuItemActionCollapse(MenuItem item) {
+                mHeroesListFragment.clearSearch();
+                return true;
+            }
+        });
+        return true;
     }
 
 
