@@ -23,6 +23,7 @@ import douglas.com.br.testemarvel.R;
 import douglas.com.br.testemarvel.data.AppDatabase;
 import douglas.com.br.testemarvel.data.local.Hero;
 import douglas.com.br.testemarvel.data.remote.models.response.CharactersResponse;
+import douglas.com.br.testemarvel.ui.adapters.HeroesAdapter;
 import douglas.com.br.testemarvel.ui.base.BaseFragment;
 import douglas.com.br.testemarvel.ui.hero_detail.HeroDetailActivity;
 import douglas.com.br.testemarvel.utils.helpers.CustomListeners;
@@ -43,7 +44,7 @@ public class HeroesListFragment extends BaseFragment implements HeroesListMvpVie
     @Inject
     AppDatabase mDatabase;
     @Inject
-    HeroesListAdapter mAdapter;
+    HeroesAdapter mAdapter;
     @BindView(R.id.swiperefesh)
     SwipeRefreshLayout mSwipeRefresh;
     @BindView(R.id.recyclerview)
@@ -77,7 +78,7 @@ public class HeroesListFragment extends BaseFragment implements HeroesListMvpVie
             @Override
             public void OnHeroFavorited(CharactersResponse.Result hero, boolean isFavorite) {
                 if (isFavorite) {
-                    mDatabase.userDao().insertAll(new Hero(hero.getId(), hero.getName(), hero.getThumbnail().getFullPath(), hero.getDescription()));
+                    mDatabase.userDao().insertAll(new Hero(hero.getId(), hero.getName(), hero.getThumbnail().getPath(), hero.getThumbnail().getExtension(), hero.getDescription()));
                 } else {
                     mDatabase.userDao().deleteHero(hero.getId());
                 }
@@ -106,6 +107,7 @@ public class HeroesListFragment extends BaseFragment implements HeroesListMvpVie
         mAdapter.updateItems(mItems);
     }
 
+    //colocar isso na main e só passar os resultados
     public void searchHero(String name) {
         isSearching = true;
         mPresenter.getHeroesByName(0, name);

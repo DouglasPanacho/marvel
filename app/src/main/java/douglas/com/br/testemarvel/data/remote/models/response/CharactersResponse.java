@@ -140,6 +140,13 @@ public class CharactersResponse {
         public Events events;
         public List<Url> urls = null;
 
+        public Result(Integer id, String name, String description, Thumbnail thumbnail) {
+            this.id = id;
+            this.name = name;
+            this.description = description;
+            this.thumbnail = thumbnail;
+        }
+
         protected Result(Parcel in) {
             if (in.readByte() == 0) {
                 id = null;
@@ -285,6 +292,11 @@ public class CharactersResponse {
 
         public String path;
         public String extension;
+
+        public Thumbnail(String path, String extension) {
+            this.path = path;
+            this.extension = extension;
+        }
 
         protected Thumbnail(Parcel in) {
             path = in.readString();

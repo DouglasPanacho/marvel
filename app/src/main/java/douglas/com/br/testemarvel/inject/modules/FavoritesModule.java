@@ -2,6 +2,7 @@ package douglas.com.br.testemarvel.inject.modules;
 
 import dagger.Module;
 import dagger.Provides;
+import douglas.com.br.testemarvel.data.AppDatabase;
 import douglas.com.br.testemarvel.inject.UserScope;
 import douglas.com.br.testemarvel.ui.favorites_fragment.FavoritesPrensenter;
 
@@ -14,7 +15,7 @@ public class FavoritesModule {
 
     @UserScope
     @Provides
-    FavoritesPrensenter providesFavoritesPresenter() {
-        return new FavoritesPrensenter();
+    FavoritesPrensenter providesFavoritesPresenter(AppDatabase db) {
+        return new FavoritesPrensenter(db);
     }
 }

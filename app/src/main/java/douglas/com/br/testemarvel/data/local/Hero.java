@@ -17,16 +17,20 @@ public class Hero {
     @ColumnInfo(name = "name")
     private String name;
 
-    @ColumnInfo(name = "picture")
-    private String picture;
+    @ColumnInfo(name = "path")
+    private String path;
+
+    @ColumnInfo(name = "extension")
+    private String extension;
 
     @ColumnInfo(name = "description")
     private String description;
 
-    public Hero(int id, String name, String picture, String description) {
+    public Hero(int id, String name, String path, String extension, String description) {
         this.id = id;
         this.name = name;
-        this.picture = picture;
+        this.path = path;
+        this.extension = extension;
         this.description = description;
     }
 
@@ -46,12 +50,20 @@ public class Hero {
         this.name = name;
     }
 
-    public String getPicture() {
-        return picture;
+    public String getPath() {
+        return path;
     }
 
-    public void setPicture(String picture) {
-        this.picture = picture;
+    public void setPath(String path) {
+        this.path = path;
+    }
+
+    public String getExtension() {
+        return extension;
+    }
+
+    public void setExtension(String extension) {
+        this.extension = extension;
     }
 
     public String getDescription() {

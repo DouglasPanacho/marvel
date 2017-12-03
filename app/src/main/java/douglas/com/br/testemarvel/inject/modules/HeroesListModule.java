@@ -7,7 +7,7 @@ import dagger.Provides;
 import douglas.com.br.testemarvel.data.remote.services.HeroesDataManager;
 import douglas.com.br.testemarvel.data.remote.models.response.CharactersResponse;
 import douglas.com.br.testemarvel.inject.UserScope;
-import douglas.com.br.testemarvel.ui.heroeslist_fragment.HeroesListAdapter;
+import douglas.com.br.testemarvel.ui.adapters.HeroesAdapter;
 import douglas.com.br.testemarvel.ui.heroeslist_fragment.HeroesListPresenter;
 
 /**
@@ -25,7 +25,7 @@ public class HeroesListModule {
 
     @Provides
     @UserScope
-    HeroesListAdapter providesAdapter() {
-        return new HeroesListAdapter(new ArrayList<CharactersResponse.Result>());
+    HeroesAdapter providesAdapter() {
+        return new HeroesAdapter(new ArrayList<CharactersResponse.Result>());
     }
 }

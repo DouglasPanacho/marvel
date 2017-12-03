@@ -58,11 +58,12 @@
                     android:textStyle="bold" />
 
                 <ImageView
+                    android:id="@+id/item_hero_favorite_im"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center"
                     android:scaleType="centerInside"
-                    android:src="@drawable/ic_empty_star" />
+                    android:src="@drawable/bg_favorite_selector" />
             </LinearLayout>
 
 

@@ -1,4 +1,4 @@
-package douglas.com.br.testemarvel.ui.heroeslist_fragment;
+package douglas.com.br.testemarvel.ui.adapters;
 
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -22,14 +22,14 @@ import douglas.com.br.testemarvel.utils.helpers.CustomListeners;
  * Created by douglaspanacho on 02/12/2017.
  */
 
-public class HeroesListAdapter extends RecyclerView.Adapter {
+public class HeroesAdapter extends RecyclerView.Adapter {
 
     private List<CharactersResponse.Result> mItems;
     private CustomListeners.OnHeroClicked mListener;
     private int TYPE_LEFT = 0, TYPE_RIGHT = 1, TYPE_EMPTY = 2, TYPE_LOADING = 3;
 
 
-    public HeroesListAdapter(List<CharactersResponse.Result> mItems) {
+    public HeroesAdapter(List<CharactersResponse.Result> mItems) {
         this.mItems = mItems;
     }
 
@@ -96,6 +96,8 @@ public class HeroesListAdapter extends RecyclerView.Adapter {
         TextView mHeroNameTv;
         @BindView(R.id.item_hero_description)
         TextView mHeroDescriptionTv;
+        @BindView(R.id.item_hero_favorite_im)
+        ImageView mFavoriteIm;
 
         public HeroesListAdapteViewHolder(View itemView) {
             super(itemView);
@@ -111,6 +113,18 @@ public class HeroesListAdapter extends RecyclerView.Adapter {
             } else {
                 mHeroDescriptionTv.setVisibility(View.GONE);
             }
+            mFavoriteIm.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    if (mFavoriteIm.isSelected()) {
+                        mListener.OnHeroFavorited(mItems.get(position), false);
+                        mFavoriteIm.setSelected(false);
+                    } else {
+                        mListener.OnHeroFavorited(mItems.get(position), true);
+                        mFavoriteIm.setSelected(true);
+                    }
+                }
+            });
             itemView.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
