@@ -5,6 +5,7 @@ import java.util.ArrayList;
 import dagger.Module;
 import dagger.Provides;
 import douglas.com.br.testemarvel.data.AppDatabase;
+import douglas.com.br.testemarvel.data.local.Hero;
 import douglas.com.br.testemarvel.data.remote.services.HeroesDataManager;
 import douglas.com.br.testemarvel.data.remote.models.response.CharactersResponse;
 import douglas.com.br.testemarvel.inject.UserScope;
@@ -27,6 +28,6 @@ public class HeroesListModule {
     @Provides
     @UserScope
     HeroListAdapter providesAdapter() {
-        return new HeroListAdapter(new ArrayList<CharactersResponse.Result>());
+        return new HeroListAdapter(new ArrayList<CharactersResponse.Result>(),new ArrayList<Integer>());
     }
 }

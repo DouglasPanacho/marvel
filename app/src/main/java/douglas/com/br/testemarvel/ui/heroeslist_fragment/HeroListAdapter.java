@@ -15,6 +15,7 @@ import java.util.List;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import douglas.com.br.testemarvel.R;
+import douglas.com.br.testemarvel.data.local.Hero;
 import douglas.com.br.testemarvel.data.remote.models.response.CharactersResponse;
 import douglas.com.br.testemarvel.utils.helpers.CustomListeners;
 
@@ -25,12 +26,18 @@ import douglas.com.br.testemarvel.utils.helpers.CustomListeners;
 public class HeroListAdapter extends RecyclerView.Adapter {
 
     private List<CharactersResponse.Result> mItems;
+    private List<Integer> mFavoriteItemsIds;
     private CustomListeners.OnHeroClicked mListener;
     private int TYPE_LEFT = 0, TYPE_RIGHT = 1, TYPE_EMPTY = 2, TYPE_LOADING = 3;
 
 
-    public HeroListAdapter(List<CharactersResponse.Result> mItems) {
+    public HeroListAdapter(List<CharactersResponse.Result> mItems, List<Integer> favoriteItemsIds) {
         this.mItems = mItems;
+        this.mFavoriteItemsIds = favoriteItemsIds;
+    }
+
+    public List<CharactersResponse.Result> getmItems() {
+        return mItems;
     }
 
     public void setListener(CustomListeners.OnHeroClicked listener) {
@@ -38,9 +45,14 @@ public class HeroListAdapter extends RecyclerView.Adapter {
     }
 
     //update mitems and notify that the data has changed
-    public void updateItems(List<CharactersResponse.Result> items) {
+    public void updateItems(List<CharactersResponse.Result> items, List<Integer> favoriteItemsIds) {
         mItems = items;
+        mFavoriteItemsIds = favoriteItemsIds;
         notifyDataSetChanged();
+    }
+
+    public void updateFavoriteItems() {
+
     }
 
     public void clearItems() {
@@ -112,6 +124,11 @@ public class HeroListAdapter extends RecyclerView.Adapter {
                 mHeroDescriptionTv.setText(mItems.get(position).getDescription());
             } else {
                 mHeroDescriptionTv.setVisibility(View.GONE);
+            }
+            if (mFavoriteItemsIds.contains(mItems.get(position).getId())) {
+                mFavoriteIm.setSelected(true);
+            } else {
+                mFavoriteIm.setSelected(false);
             }
             mFavoriteIm.setOnClickListener(new View.OnClickListener() {
                 @Override

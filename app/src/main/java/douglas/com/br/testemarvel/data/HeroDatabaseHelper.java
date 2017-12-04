@@ -28,12 +28,6 @@ public class HeroDatabaseHelper {
 
     }
 
-    public static Flowable<Hero> getHeroflow(final AppDatabase db, int id) {
-        return db.userDao().getHeroflow(id);
-
-    }
-
-
 //    private static void populateWithTestData(AppDatabase db) {
 //        Hero hero = new Hero();
 //        hero.setFirstName("Ajay");

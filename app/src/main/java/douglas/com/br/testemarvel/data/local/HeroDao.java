@@ -29,9 +29,6 @@ public interface HeroDao {
     @Query("SELECT * FROM heroes WHERE id== :id")
     Maybe<Hero> getHero(int id);
 
-    @Query("SELECT * FROM heroes WHERE id== :id")
-    Flowable<Hero> getHeroflow(int id);
-
     @Query("DELETE FROM heroes WHERE id== :id")
     void deleteHero(int id);
 

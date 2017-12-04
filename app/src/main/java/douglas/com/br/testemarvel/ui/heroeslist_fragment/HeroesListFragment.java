@@ -26,6 +26,7 @@ import douglas.com.br.testemarvel.data.remote.models.response.CharactersResponse
 import douglas.com.br.testemarvel.ui.base.BaseFragment;
 import douglas.com.br.testemarvel.ui.hero_detail.HeroDetailActivity;
 import douglas.com.br.testemarvel.utils.helpers.CustomListeners;
+import douglas.com.br.testemarvel.utils.helpers.PaginationScrollControl;
 
 /**
  * Created by douglaspanacho on 30/11/2017.
@@ -34,8 +35,11 @@ import douglas.com.br.testemarvel.utils.helpers.CustomListeners;
 public class HeroesListFragment extends BaseFragment implements HeroesListMvpView, SwipeRefreshLayout.OnRefreshListener {
 
 
-    private int mCurrentOffset = 0;
     private List<CharactersResponse.Result> mItems = new ArrayList<>();
+    private List<Integer> mFavoriteHeroes = new ArrayList<>();
+    private PaginationScrollControl mPaginationHelper;
+    private LinearLayoutManager mLinearLayoutManager;
+    private int mPageCount = 0;
 
     @Inject
     HeroesListPresenter mPresenter;
@@ -59,11 +63,39 @@ public class HeroesListFragment extends BaseFragment implements HeroesListMvpVie
         View view = inflater.inflate(R.layout.fragment_layout, container, false);
         ButterKnife.bind(this, view);
         getApplication().getmHeroListComponent().inject(this);
-        mSwipeRefresh.setOnRefreshListener(this);
-        mPresenter.attachView(this);
         setupAdapter();
-        mPresenter.getHeroes(mCurrentOffset);
+        mSwipeRefresh.setOnRefreshListener(this);
+        initializeRecyclerView();
+        initializePaginationHelper();
+        mPresenter.getFavoriteHeroes();
+        mPresenter.getHeroes(0);
+        mPresenter.attachView(this);
         return view;
+    }
+
+    public void initializeRecyclerView() {
+        mLinearLayoutManager = new LinearLayoutManager(getContext(), LinearLayoutManager.VERTICAL, false);
+        mHeroesRv.setLayoutManager(mLinearLayoutManager);
+    }
+
+    private void initializePaginationHelper() {
+        mPaginationHelper = new PaginationScrollControl(mAdapter, mLinearLayoutManager) {
+            @Override
+            protected void loadMoreItems() {
+                getHeroes(mPageCount * 20);
+            }
+
+            @Override
+            public boolean isLastPage() {
+                return false;
+            }
+
+            @Override
+            public boolean isLoading() {
+                return false;
+            }
+        };
+        mHeroesRv.addOnScrollListener(mPaginationHelper);
     }
 
     private void setupAdapter() {
@@ -93,7 +125,6 @@ public class HeroesListFragment extends BaseFragment implements HeroesListMvpVie
 
             }
         });
-        mHeroesRv.setLayoutManager(new LinearLayoutManager(getContext(), LinearLayoutManager.VERTICAL, false));
         mHeroesRv.setAdapter(mAdapter);
     }
 
@@ -102,12 +133,12 @@ public class HeroesListFragment extends BaseFragment implements HeroesListMvpVie
     }
 
     private void setItemsAdapter(List<CharactersResponse.Result> mItems) {
-        mAdapter.updateItems(mItems);
+        mAdapter.updateItems(mItems, mFavoriteHeroes);
     }
 
 
     public void clearSearch() {
-        mAdapter.updateItems(mItems);
+        mAdapter.updateItems(mItems, mFavoriteHeroes);
     }
 
     @Override
@@ -131,23 +162,38 @@ public class HeroesListFragment extends BaseFragment implements HeroesListMvpVie
 
     }
 
-    public void startLoading(){
+    public void startLoading() {
         mAdapter.clearItems();
     }
 
     public <T> void setSearchResult(T result) {
         setItemsAdapter(((CharactersResponse) result).getData().getResults());
+
     }
 
     @Override
     public <T> void setResult(T result) {
-        mItems.addAll(((CharactersResponse) result).getData().getResults());
-        setItemsAdapter(mItems);
+        mPaginationHelper.setmLastPageCount(mPageCount);
+        if (result instanceof CharactersResponse) {
+            mPageCount++;
+            mPaginationHelper.setLoading(false);
+            mPaginationHelper.setmPageCount(mPageCount);
+            mItems.addAll(((CharactersResponse) result).getData().getResults());
+            setItemsAdapter(mItems);
+        }
     }
 
     @Override
     public void onRefresh() {
-        mCurrentOffset++;
-        getHeroes(mCurrentOffset);
+        getHeroes(mPageCount * 20);
+    }
+
+    @Override
+    public void setFavoritesResult(List<Hero> items) {
+        for (Hero item : items
+                ) {
+            mFavoriteHeroes.add(item.getId());
+        }
+
     }
 }

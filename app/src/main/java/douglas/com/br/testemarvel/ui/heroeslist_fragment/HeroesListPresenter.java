@@ -1,9 +1,13 @@
 package douglas.com.br.testemarvel.ui.heroeslist_fragment;
 
+import java.util.List;
+
 import douglas.com.br.testemarvel.data.AppDatabase;
+import douglas.com.br.testemarvel.data.local.Hero;
 import douglas.com.br.testemarvel.data.remote.services.HeroesDataManager;
 import douglas.com.br.testemarvel.data.remote.models.response.CharactersResponse;
 import douglas.com.br.testemarvel.ui.base.BasePresenter;
+import io.reactivex.MaybeObserver;
 import io.reactivex.Observer;
 import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.disposables.Disposable;
@@ -89,5 +93,29 @@ public class HeroesListPresenter extends BasePresenter<HeroesListMvpView> {
         });
     }
 
+
+    public void getFavoriteHeroes() {
+        mDataBase.userDao().getAll().subscribeOn(Schedulers.io()).observeOn(AndroidSchedulers.mainThread()).subscribe(new MaybeObserver<List<Hero>>() {
+            @Override
+            public void onSubscribe(Disposable d) {
+
+            }
+
+            @Override
+            public void onSuccess(List<Hero> heroes) {
+                mMvpView.setFavoritesResult(heroes);
+            }
+
+            @Override
+            public void onError(Throwable e) {
+                e.toString();
+            }
+
+            @Override
+            public void onComplete() {
+
+            }
+        });
+    }
 
 }

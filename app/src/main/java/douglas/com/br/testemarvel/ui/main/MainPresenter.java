@@ -1,12 +1,16 @@
 package douglas.com.br.testemarvel.ui.main;
 
+import java.util.List;
+
 import javax.inject.Inject;
 
 import douglas.com.br.testemarvel.data.AppDatabase;
+import douglas.com.br.testemarvel.data.local.Hero;
 import douglas.com.br.testemarvel.data.remote.models.response.CharactersResponse;
 import douglas.com.br.testemarvel.data.remote.services.HeroesDataManager;
 import douglas.com.br.testemarvel.ui.base.BasePresenter;
 import douglas.com.br.testemarvel.ui.heroeslist_fragment.HeroesListMvpView;
+import io.reactivex.MaybeObserver;
 import io.reactivex.Observer;
 import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.disposables.Disposable;
