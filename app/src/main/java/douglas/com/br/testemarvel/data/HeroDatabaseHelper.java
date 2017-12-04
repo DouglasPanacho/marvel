@@ -18,8 +18,8 @@ public class HeroDatabaseHelper {
         return heroe;
     }
 
-    public static Maybe<List<Hero>> getHeroes(final AppDatabase db) {
-        return db.userDao().getAll();
+    public static void getHeroes(final AppDatabase db) {
+        db.userDao().getAll();
 
     }
 
@@ -28,11 +28,5 @@ public class HeroDatabaseHelper {
 
     }
 
-//    private static void populateWithTestData(AppDatabase db) {
-//        Hero hero = new Hero();
-//        hero.setFirstName("Ajay");
-//        hero.setLastName("Saini");
-//        hero.setAge(25);
-//        addUser(db, hero);
 }
 

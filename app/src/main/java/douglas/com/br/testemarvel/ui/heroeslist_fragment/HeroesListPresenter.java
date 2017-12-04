@@ -54,12 +54,13 @@ public class HeroesListPresenter extends BasePresenter<HeroesListMvpView> {
 
             @Override
             public void onNext(CharactersResponse charactersResponse) {
+                mMvpView.hideProgress();
                 mMvpView.setResult(charactersResponse);
             }
 
             @Override
             public void onError(Throwable e) {
-
+                mMvpView.hideProgress();
             }
 
             @Override
@@ -93,6 +94,14 @@ public class HeroesListPresenter extends BasePresenter<HeroesListMvpView> {
         });
     }
 
+    public void addHeroDataBase(Hero hero) {
+        mDataBase.userDao().insertAll(new Hero(hero.getId()));
+    }
+
+    public void deleteHeroDataBase(int heroId) {
+        mDataBase.userDao().deleteHero(heroId);
+    }
+
 
     public void getFavoriteHeroes() {
         mDataBase.userDao().getAll().subscribeOn(Schedulers.io()).observeOn(AndroidSchedulers.mainThread()).subscribe(new MaybeObserver<List<Hero>>() {
@@ -103,6 +112,30 @@ public class HeroesListPresenter extends BasePresenter<HeroesListMvpView> {
 
             @Override
             public void onSuccess(List<Hero> heroes) {
+
+            }
+
+            @Override
+            public void onError(Throwable e) {
+                e.toString();
+            }
+
+            @Override
+            public void onComplete() {
+
+            }
+        });
+    }
+
+    public void getFavoriteHeroesIds() {
+        mDataBase.userDao().getAllIds().subscribeOn(Schedulers.io()).observeOn(AndroidSchedulers.mainThread()).subscribe(new MaybeObserver<List<Integer>>() {
+            @Override
+            public void onSubscribe(Disposable d) {
+
+            }
+
+            @Override
+            public void onSuccess(List<Integer> heroes) {
                 mMvpView.setFavoritesResult(heroes);
             }
 

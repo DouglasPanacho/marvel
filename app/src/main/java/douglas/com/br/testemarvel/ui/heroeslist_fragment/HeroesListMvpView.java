@@ -11,5 +11,5 @@ import douglas.com.br.testemarvel.ui.base.MvpView;
 
 public interface HeroesListMvpView extends MvpView {
 
-    void setFavoritesResult(List<Hero> items);
+    void setFavoritesResult(List<Integer> items);
 }

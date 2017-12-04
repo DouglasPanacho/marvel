@@ -21,6 +21,7 @@ import butterknife.ButterKnife;
 import douglas.com.br.testemarvel.Constants;
 import douglas.com.br.testemarvel.R;
 import douglas.com.br.testemarvel.data.AppDatabase;
+import douglas.com.br.testemarvel.data.HeroDatabaseHelper;
 import douglas.com.br.testemarvel.data.local.Hero;
 import douglas.com.br.testemarvel.data.remote.models.response.CharactersResponse;
 import douglas.com.br.testemarvel.ui.base.BaseFragment;
@@ -40,11 +41,10 @@ public class HeroesListFragment extends BaseFragment implements HeroesListMvpVie
     private PaginationScrollControl mPaginationHelper;
     private LinearLayoutManager mLinearLayoutManager;
     private int mPageCount = 0;
+    private boolean isRefresh = false;
 
     @Inject
     HeroesListPresenter mPresenter;
-    @Inject
-    AppDatabase mDatabase;
     @Inject
     HeroListAdapter mAdapter;
     @BindView(R.id.swiperefesh)
@@ -67,7 +67,7 @@ public class HeroesListFragment extends BaseFragment implements HeroesListMvpVie
         mSwipeRefresh.setOnRefreshListener(this);
         initializeRecyclerView();
         initializePaginationHelper();
-        mPresenter.getFavoriteHeroes();
+        mPresenter.getFavoriteHeroesIds();
         mPresenter.getHeroes(0);
         mPresenter.attachView(this);
         return view;
@@ -109,9 +109,9 @@ public class HeroesListFragment extends BaseFragment implements HeroesListMvpVie
             @Override
             public void OnHeroFavorited(CharactersResponse.Result hero, boolean isFavorite) {
                 if (isFavorite) {
-                    mDatabase.userDao().insertAll(new Hero(hero.getId()));
+                    mPresenter.addHeroDataBase(new Hero(hero.getId()));
                 } else {
-                    mDatabase.userDao().deleteHero(hero.getId());
+                    mPresenter.deleteHeroDataBase(hero.getId());
                 }
             }
 
@@ -128,6 +128,7 @@ public class HeroesListFragment extends BaseFragment implements HeroesListMvpVie
         });
         mHeroesRv.setAdapter(mAdapter);
     }
+
 
     private void getHeroes(int offset) {
         mPresenter.getHeroes(offset);
@@ -172,11 +173,11 @@ public class HeroesListFragment extends BaseFragment implements HeroesListMvpVie
 
     }
 
+    //todo refatorar essas coisas
     @Override
     public <T> void setResult(T result) {
         mPaginationHelper.setmLastPageCount(mPageCount);
         if (result instanceof CharactersResponse) {
-            mAdapter.removeLoader();
             mPageCount++;
             mPaginationHelper.setLoading(false);
             mPaginationHelper.setmPageCount(mPageCount);
@@ -187,15 +188,16 @@ public class HeroesListFragment extends BaseFragment implements HeroesListMvpVie
 
     @Override
     public void onRefresh() {
+        isRefresh = true;
+        mPageCount = 0;
+        mPaginationHelper.setmLastPageCount(mPageCount);
+        mPaginationHelper.setLoading(false);
+        mPaginationHelper.setmPageCount(mPageCount);
         getHeroes(mPageCount * 20);
     }
 
     @Override
-    public void setFavoritesResult(List<Hero> items) {
-        for (Hero item : items
-                ) {
-            mFavoriteHeroes.add(item.getId());
-        }
-
+    public void setFavoritesResult(List<Integer> items) {
+        mFavoriteHeroes.addAll(items);
     }
 }

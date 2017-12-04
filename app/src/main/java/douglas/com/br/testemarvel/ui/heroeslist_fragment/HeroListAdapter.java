@@ -43,17 +43,11 @@ public class HeroListAdapter extends RecyclerView.Adapter {
         return mItems;
     }
 
+    //used to show loader in the end of page
     public void showLoader() {
         mItems.add(new CharactersResponse.Result());
         isLoading = true;
         notifyDataSetChanged();
-    }
-
-    public void removeLoader() {
-        if (mItems.size() > 0) {
-            mItems.remove(mItems.size() - 1);
-        }
-        isLoading = false;
     }
 
     public void setListener(CustomListeners.OnHeroClicked listener) {
@@ -62,17 +56,18 @@ public class HeroListAdapter extends RecyclerView.Adapter {
 
     //update mitems and notify that the data has changed
     public void updateItems(List<CharactersResponse.Result> items, List<Integer> favoriteItemsIds) {
-        int itemChangedPosition = mItems.size() + 1;
         isLoading = false;
-        mItems = items;
+        mItems.clear();
+        mItems.addAll(items);
         mFavoriteItemsIds = favoriteItemsIds;
-        notifyItemRangeInserted(itemChangedPosition, mItems.size());
+        notifyDataSetChanged();
     }
 
     public void updateFavoriteItems(List<Integer> mFavoriteItemsIds) {
         this.mFavoriteItemsIds = mFavoriteItemsIds;
     }
 
+    //clear all items
     public void clearItems() {
         isLoading = true;
         mItems = new ArrayList<>();
@@ -136,6 +131,7 @@ public class HeroListAdapter extends RecyclerView.Adapter {
             ButterKnife.bind(this, itemView);
         }
 
+        //bind all my info
         public void bind(final int position) {
             Glide.with(itemView.getContext()).load(mItems.get(position).getThumbnail().getFullPath()).thumbnail(0.1f).into(mHeroIm);
             mHeroNameTv.setText(mItems.get(position).getName());
