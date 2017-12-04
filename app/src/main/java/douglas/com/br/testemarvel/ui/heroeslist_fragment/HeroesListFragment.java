@@ -92,6 +92,7 @@ public class HeroesListFragment extends BaseFragment implements HeroesListMvpVie
 
             @Override
             public boolean isLoading() {
+                mAdapter.showLoader();
                 return false;
             }
         };
@@ -175,6 +176,7 @@ public class HeroesListFragment extends BaseFragment implements HeroesListMvpVie
     public <T> void setResult(T result) {
         mPaginationHelper.setmLastPageCount(mPageCount);
         if (result instanceof CharactersResponse) {
+            mAdapter.removeLoader();
             mPageCount++;
             mPaginationHelper.setLoading(false);
             mPaginationHelper.setmPageCount(mPageCount);

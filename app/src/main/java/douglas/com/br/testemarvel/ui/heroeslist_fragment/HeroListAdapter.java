@@ -1,10 +1,12 @@
 package douglas.com.br.testemarvel.ui.heroeslist_fragment;
 
+import android.support.v4.content.ContextCompat;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
@@ -28,6 +30,7 @@ public class HeroListAdapter extends RecyclerView.Adapter {
     private List<CharactersResponse.Result> mItems;
     private List<Integer> mFavoriteItemsIds;
     private CustomListeners.OnHeroClicked mListener;
+    private boolean isLoading = true;
     private int TYPE_LEFT = 0, TYPE_RIGHT = 1, TYPE_EMPTY = 2, TYPE_LOADING = 3;
 
 
@@ -40,29 +43,45 @@ public class HeroListAdapter extends RecyclerView.Adapter {
         return mItems;
     }
 
+    public void showLoader() {
+        mItems.add(new CharactersResponse.Result());
+        isLoading = true;
+        notifyDataSetChanged();
+    }
+
+    public void removeLoader() {
+        if (mItems.size() > 0) {
+            mItems.remove(mItems.size() - 1);
+        }
+        isLoading = false;
+    }
+
     public void setListener(CustomListeners.OnHeroClicked listener) {
         mListener = listener;
     }
 
     //update mitems and notify that the data has changed
     public void updateItems(List<CharactersResponse.Result> items, List<Integer> favoriteItemsIds) {
+        int itemChangedPosition = mItems.size() + 1;
+        isLoading = false;
         mItems = items;
         mFavoriteItemsIds = favoriteItemsIds;
-        notifyDataSetChanged();
+        notifyItemRangeInserted(itemChangedPosition, mItems.size());
     }
 
-    public void updateFavoriteItems() {
-
+    public void updateFavoriteItems(List<Integer> mFavoriteItemsIds) {
+        this.mFavoriteItemsIds = mFavoriteItemsIds;
     }
 
     public void clearItems() {
+        isLoading = true;
         mItems = new ArrayList<>();
         notifyDataSetChanged();
     }
 
     @Override
     public int getItemViewType(int position) {
-        if (mItems.size() == 0) {
+        if (isLoading && mItems.size() - 1 == position || isLoading && mItems.size() == 0) {
             return TYPE_LOADING;
         } else {
             if (position % 2 == 0) {
@@ -75,7 +94,6 @@ public class HeroListAdapter extends RecyclerView.Adapter {
 
     @Override
     public RecyclerView.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-        //todo colocar viewtyw
         if (viewType == TYPE_LEFT) {
             View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.item_heroes_left, parent, false);
             return new HeroesListAdapteViewHolder(view);
@@ -92,6 +110,8 @@ public class HeroListAdapter extends RecyclerView.Adapter {
     public void onBindViewHolder(RecyclerView.ViewHolder holder, int position) {
         if (holder instanceof HeroesListAdapteViewHolder) {
             ((HeroesListAdapteViewHolder) holder).bind(position);
+        } else if (holder instanceof LoadingViewHolder) {
+            ((LoadingViewHolder) holder).bind();
         }
     }
 
@@ -151,14 +171,23 @@ public class HeroListAdapter extends RecyclerView.Adapter {
         }
     }
 
-    //todo colcar em uma clase separa, erro tambem
     public class LoadingViewHolder extends RecyclerView.ViewHolder {
+
+        @BindView(R.id.loading_container_ll)
+        LinearLayout mContainerll;
 
         public LoadingViewHolder(View itemView) {
             super(itemView);
             ButterKnife.bind(this, itemView);
         }
 
+        public void bind() {
+            if (mItems.size() > 0) {
+                LinearLayout.LayoutParams layoutParams = new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT);
+                layoutParams.setMargins(0, (int) itemView.getContext().getResources().getDimension(R.dimen.vertical_margin), 0, 0);
+                mContainerll.setLayoutParams(layoutParams);
+            }
+        }
 
     }
 }

@@ -154,6 +154,9 @@ public class CharactersResponse {
             this.thumbnail = thumbnail;
         }
 
+        public Result() {
+        }
+
         protected Result(Parcel in) {
             if (in.readByte() == 0) {
                 id = null;

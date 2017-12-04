@@ -29,7 +29,8 @@ public abstract class PaginationScrollControl extends RecyclerView.OnScrollListe
                 if (mLinearLayoutManager.findLastVisibleItemPosition() == mAdapter.getmItems().size() - 1) {
                     isLoading = true;
                     if (mLastPageCount != mPageCount) {
-                       loadMoreItems();
+                        isLoading();
+                        loadMoreItems();
                     }
                 }
             }

@@ -6,6 +6,7 @@
     <color name="colorWhite">#FFF</color>
     <color name="colorEndGradient">#6b706f6f</color>
     <color name="colorStartGradient">#00ffffff</color>
+    <color name="colorTransparent">#00ffffff</color>
     <color name="colorRed">#ba000d</color>
     <color name="colorYellow">#fdd835</color>
 </resources>
