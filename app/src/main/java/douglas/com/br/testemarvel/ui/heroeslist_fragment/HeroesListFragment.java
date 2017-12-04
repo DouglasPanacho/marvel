@@ -36,6 +36,7 @@ import douglas.com.br.testemarvel.utils.helpers.PaginationScrollControl;
 public class HeroesListFragment extends BaseFragment implements HeroesListMvpView, SwipeRefreshLayout.OnRefreshListener {
 
 
+    private int OPEN_HERO_DETAIL_REQUEST = 1;
     private List<CharactersResponse.Result> mItems = new ArrayList<>();
     private List<Integer> mFavoriteHeroes = new ArrayList<>();
     private PaginationScrollControl mPaginationHelper;
@@ -122,7 +123,7 @@ public class HeroesListFragment extends BaseFragment implements HeroesListMvpVie
                 intent.putExtra(Constants.HERO_EXTRA, hero);
                 ActivityOptionsCompat options = ActivityOptionsCompat.
                         makeSceneTransitionAnimation(getActivity(), image, getString(R.string.transition_name));
-                startActivity(intent, options.toBundle());
+                startActivityForResult(intent, OPEN_HERO_DETAIL_REQUEST, options.toBundle());
 
             }
         });
@@ -198,6 +199,16 @@ public class HeroesListFragment extends BaseFragment implements HeroesListMvpVie
 
     @Override
     public void setFavoritesResult(List<Integer> items) {
+        mFavoriteHeroes.clear();
         mFavoriteHeroes.addAll(items);
+        mAdapter.updateFavoriteItems(mFavoriteHeroes);
+    }
+
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if (requestCode == OPEN_HERO_DETAIL_REQUEST && resultCode == getActivity().RESULT_OK) {
+            mPresenter.getFavoriteHeroesIds();
+        }
     }
 }

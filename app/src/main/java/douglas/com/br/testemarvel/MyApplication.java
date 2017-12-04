@@ -2,9 +2,11 @@ package douglas.com.br.testemarvel;
 
 import android.app.Application;
 
+import douglas.com.br.testemarvel.inject.components.DaggerHeroDetailComponent;
 import douglas.com.br.testemarvel.inject.components.DaggerHeroesListComponent;
 import douglas.com.br.testemarvel.inject.components.DaggerMainActvityComponent;
 import douglas.com.br.testemarvel.inject.components.DaggerMyApplicationComponent;
+import douglas.com.br.testemarvel.inject.components.HeroDetailComponent;
 import douglas.com.br.testemarvel.inject.components.HeroesListComponent;
 import douglas.com.br.testemarvel.inject.components.MyApplicationComponent;
 import douglas.com.br.testemarvel.inject.modules.MyApplicationModule;
@@ -17,6 +19,7 @@ public class MyApplication extends Application {
 
     private MyApplicationComponent myApplicationComponent;
     private HeroesListComponent mHeroListComponent;
+    private HeroDetailComponent mHeroDetailComponent;
 
 
     @Override
@@ -24,6 +27,7 @@ public class MyApplication extends Application {
         super.onCreate();
         myApplicationComponent = DaggerMyApplicationComponent.builder().myApplicationModule(new MyApplicationModule(this)).build();
         mHeroListComponent = DaggerHeroesListComponent.builder().myApplicationComponent(myApplicationComponent).build();
+        mHeroDetailComponent = DaggerHeroDetailComponent.builder().myApplicationComponent(myApplicationComponent).build();
     }
 
     public MyApplicationComponent getMyApplicationComponent() {
@@ -34,5 +38,7 @@ public class MyApplication extends Application {
         return mHeroListComponent;
     }
 
-
+    public HeroDetailComponent getmHeroDetailComponent() {
+        return mHeroDetailComponent;
+    }
 }

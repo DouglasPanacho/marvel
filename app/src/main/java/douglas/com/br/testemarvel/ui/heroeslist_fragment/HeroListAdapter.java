@@ -64,7 +64,8 @@ public class HeroListAdapter extends RecyclerView.Adapter {
     }
 
     public void updateFavoriteItems(List<Integer> mFavoriteItemsIds) {
-        this.mFavoriteItemsIds = mFavoriteItemsIds;
+        this.mFavoriteItemsIds.addAll(mFavoriteItemsIds);
+        notifyDataSetChanged();
     }
 
     //clear all items

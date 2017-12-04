@@ -25,7 +25,6 @@ public interface HeroDao {
     @Query("SELECT id FROM heroes")
     Maybe<List<Integer>> getAllIds();
 
-
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     void insertAll(Hero... heroes);
 
