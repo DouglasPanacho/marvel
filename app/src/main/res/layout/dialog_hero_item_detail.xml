@@ -24,8 +24,6 @@
                 android:layout_height="wrap_content"
                 android:layout_marginBottom="@dimen/vertical_small_margin"
                 android:layout_marginTop="@dimen/vertical_margin"
-                android:ellipsize="end"
-                android:maxLines="1"
                 android:textColor="@color/colorPrimary"
                 android:textSize="@dimen/text_title"
                 android:textStyle="bold" />
@@ -53,7 +51,6 @@
                 <LinearLayout
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="@dimen/vertical_small_margin"
                     android:layout_weight="1"
                     android:orientation="vertical">
 

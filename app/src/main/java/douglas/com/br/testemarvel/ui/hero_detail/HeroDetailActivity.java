@@ -3,6 +3,7 @@ package douglas.com.br.testemarvel.ui.hero_detail;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.widget.NestedScrollView;
+import android.support.v7.widget.CardView;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.Menu;
@@ -10,13 +11,12 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.request.RequestOptions;
-
-import java.util.List;
 
 import javax.inject.Inject;
 
@@ -52,10 +52,12 @@ public class HeroDetailActivity extends BaseActivity implements HeroDetailMvpVie
     RecyclerView mRecyclerView;
     @BindView(R.id.nestedscrollview)
     NestedScrollView mNestedScrollview;
-    @BindView(R.id.framelayout_container)
-    FrameLayout mFrameLayoutContainer;
+    @BindView(R.id.linearlayout_container)
+    LinearLayout mLinearLayoutContainer;
     @BindView(R.id.progressbar)
     ProgressBar mProgressBar;
+    @BindView(R.id.hero_detail_description_container)
+    CardView mHeroDescriptionCv;
 
     private CharactersResponse.Result mHeroItem;
     private MenuItem mFavoriteMenuItem;
@@ -91,7 +93,7 @@ public class HeroDetailActivity extends BaseActivity implements HeroDetailMvpVie
         if (!mHeroItem.getDescription().isEmpty()) {
             mHeroDescriptionTv.setText(mHeroItem.getDescription());
         } else {
-            mHeroDescriptionTv.setVisibility(View.GONE);
+            mHeroDescriptionCv.setVisibility(View.GONE);
         }
     }
 
@@ -106,7 +108,7 @@ public class HeroDetailActivity extends BaseActivity implements HeroDetailMvpVie
 
     //sets my adapter and defines de spansizelookup acording to the view, header or not
     public void setupAdapter(final HeroDetailsModel item) {
-        mFrameLayoutContainer.setVisibility(View.VISIBLE);
+        mLinearLayoutContainer.setVisibility(View.VISIBLE);
         mProgressBar.setVisibility(View.GONE);
         mAdapter.updateItems(item);
         mAdapter.setmListener(this);
