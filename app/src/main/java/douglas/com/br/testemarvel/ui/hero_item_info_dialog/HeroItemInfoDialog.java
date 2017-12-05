@@ -76,9 +76,6 @@ public class HeroItemInfoDialog extends Dialog {
         } else {
             mDescriptionContainerll.setVisibility(View.GONE);
         }
-        if (mItem.getTextObjects() != null && mItem.getTextObjects().size() > 0) {
-            mTextTv.setText(mItem.getTextObjects().get(0).getText());
-        }
     }
 
 
