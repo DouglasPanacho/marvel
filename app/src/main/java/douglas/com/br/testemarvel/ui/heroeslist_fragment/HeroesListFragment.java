@@ -204,6 +204,7 @@ public class HeroesListFragment extends BaseFragment implements HeroesListMvpVie
         mAdapter.updateFavoriteItems(mFavoriteHeroes);
     }
 
+    //verify if my favourites have changes, if yes update the items
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);

@@ -1,17 +1,22 @@
 package douglas.com.br.testemarvel.ui.hero_detail;
 
-import android.os.Build;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.support.v4.widget.NestedScrollView;
+import android.support.v7.widget.GridLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
-import android.view.ViewTreeObserver;
+import android.widget.FrameLayout;
 import android.widget.ImageView;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.request.RequestOptions;
+
+import java.util.List;
 
 import javax.inject.Inject;
 
@@ -22,21 +27,35 @@ import douglas.com.br.testemarvel.MyApplication;
 import douglas.com.br.testemarvel.R;
 import douglas.com.br.testemarvel.data.local.Hero;
 import douglas.com.br.testemarvel.data.remote.models.response.CharactersResponse;
+import douglas.com.br.testemarvel.data.remote.models.response.GeneralResponse;
+import douglas.com.br.testemarvel.data.remote.models.response.HeaderModel;
+import douglas.com.br.testemarvel.data.remote.models.response.HeroDetailsModel;
 import douglas.com.br.testemarvel.ui.base.BaseActivity;
+import douglas.com.br.testemarvel.ui.hero_item_info_dialog.HeroItemInfoDialog;
+import douglas.com.br.testemarvel.utils.helpers.CustomListeners;
 
 /**
  * Created by douglaspanacho on 02/12/2017.
  */
 
-public class HeroDetailActivity extends BaseActivity implements HeroDetailMvpView {
+public class HeroDetailActivity extends BaseActivity implements HeroDetailMvpView, CustomListeners.OnItemClickedListener {
 
     @Inject
     HeroDetailPresenter mPresenter;
-
+    @Inject
+    HeroItemsAdapter mAdapter;
     @BindView(R.id.hero_detail_im)
     ImageView mHeroIm;
     @BindView(R.id.hero_detail_description_tv)
     TextView mHeroDescriptionTv;
+    @BindView(R.id.recyclerview)
+    RecyclerView mRecyclerView;
+    @BindView(R.id.nestedscrollview)
+    NestedScrollView mNestedScrollview;
+    @BindView(R.id.framelayout_container)
+    FrameLayout mFrameLayoutContainer;
+    @BindView(R.id.progressbar)
+    ProgressBar mProgressBar;
 
     private CharactersResponse.Result mHeroItem;
     private MenuItem mFavoriteMenuItem;
@@ -49,21 +68,31 @@ public class HeroDetailActivity extends BaseActivity implements HeroDetailMvpVie
         setContentView(R.layout.activity_hero_detail);
         ButterKnife.bind(this);
         mPresenter.attachView(this);
+        mRecyclerView.setNestedScrollingEnabled(false);
         getExtras();
     }
 
     public void getExtras() {
         if (getIntent().hasExtra(Constants.HERO_EXTRA)) {
             mHeroItem = getIntent().getParcelableExtra(Constants.HERO_EXTRA);
+            doRequests();
             bind();
         }
+    }
+
+    public void doRequests() {
+        mPresenter.getInfoDetails(mHeroItem.getId(), 3);
     }
 
 
     public void bind() {
         Glide.with(this).load(mHeroItem.getThumbnail().getFullPath()).apply(new RequestOptions().dontTransform()).into(mHeroIm);
         setToolbar(mHeroItem.getName(), true);
-        mHeroDescriptionTv.setText(mHeroItem.getDescription());
+        if (!mHeroItem.getDescription().isEmpty()) {
+            mHeroDescriptionTv.setText(mHeroItem.getDescription());
+        } else {
+            mHeroDescriptionTv.setVisibility(View.GONE);
+        }
     }
 
     @Override
@@ -75,18 +104,42 @@ public class HeroDetailActivity extends BaseActivity implements HeroDetailMvpVie
     }
 
 
+    //sets my adapter and defines de spansizelookup acording to the view, header or not
+    public void setupAdapter(final HeroDetailsModel item) {
+        mFrameLayoutContainer.setVisibility(View.VISIBLE);
+        mProgressBar.setVisibility(View.GONE);
+        mAdapter.updateItems(item);
+        mAdapter.setmListener(this);
+        GridLayoutManager mGridLayoutManager = new GridLayoutManager(this, 3);
+        mGridLayoutManager.setSpanSizeLookup(new GridLayoutManager.SpanSizeLookup() {
+            @Override
+            public int getSpanSize(final int position) {
+                if (item.getResult().get(position) instanceof HeaderModel) {
+                    return 3;
+                } else return 1;
+            }
+        });
+        mRecyclerView.setLayoutManager(mGridLayoutManager);
+        mRecyclerView.setAdapter(mAdapter);
+    }
+
+
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-        if (!mFavoriteMenuItem.isChecked()) {
-            isItemChecked(true);
-            mFavoriteMenuItem.setChecked(true);
-            mPresenter.addHeroDataBase(new Hero(mHeroItem.getId()));
-            isDatabaseUpdated = true;
-        } else {
-            isItemChecked(false);
-            mFavoriteMenuItem.setChecked(false);
-            mPresenter.deleteHeroDataBase(mHeroItem.getId());
-            isDatabaseUpdated = true;
+        if (item == mFavoriteMenuItem) {
+            if (!mFavoriteMenuItem.isChecked()) {
+                isItemChecked(true);
+                mFavoriteMenuItem.setChecked(true);
+                mPresenter.addHeroDataBase(new Hero(mHeroItem.getId()));
+                isDatabaseUpdated = true;
+            } else {
+                isItemChecked(false);
+                mFavoriteMenuItem.setChecked(false);
+                mPresenter.deleteHeroDataBase(mHeroItem.getId());
+                isDatabaseUpdated = true;
+            }
+        } else if (item.getItemId() == android.R.id.home) {
+            finish();
         }
         return true;
     }
@@ -113,7 +166,7 @@ public class HeroDetailActivity extends BaseActivity implements HeroDetailMvpVie
 
     @Override
     public <T> void setResult(T result) {
-
+        setupAdapter((HeroDetailsModel) result);
     }
 
     @Override
@@ -121,6 +174,7 @@ public class HeroDetailActivity extends BaseActivity implements HeroDetailMvpVie
         mFavoriteMenuItem.setChecked(true);
         isItemChecked(true);
     }
+
 
     //used to change icon
     public void isItemChecked(boolean isChecked) {
@@ -137,5 +191,12 @@ public class HeroDetailActivity extends BaseActivity implements HeroDetailMvpVie
             setResult(RESULT_OK);
         }
         super.finish();
+    }
+
+
+    @Override
+    public void OnItemClicked(GeneralResponse.Result item) {
+        HeroItemInfoDialog mDialog = new HeroItemInfoDialog(this, item);
+        mDialog.show();
     }
 }

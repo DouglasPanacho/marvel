@@ -2,8 +2,12 @@
     <string name="app_name">TesteMarvel</string>
 
     <!--MENU ITEMS NAME-->
-    <string name="placeholder_favorite_label">Favoritos</string>
-    <string name="placeholder_heroes_label">Heróis</string>
+    <string name="placeholder_favorite_label">Favorites</string>
+    <string name="placeholder_heroes_label">Heroes</string>
+
+    <!--HERO ITEM DETAILS-->
+    <string name="placeholder_creators_label">Creators</string>
+    <string name="placeholder_description_label">Description</string>
 
     <!--TRANSITIONS-->
     <string name="transition_name">image_transition</string>

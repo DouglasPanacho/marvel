@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <dimen name="heroes_item_height">200dp</dimen>
+    <dimen name="item_hero_detail_height">250dp</dimen>
     <dimen name="heroes_card_height">150dp</dimen>
     <dimen name="horizontal_x_small_margin">4dp</dimen>
     <dimen name="horizontal_small_margin">8dp</dimen>
