@@ -21,7 +21,6 @@ import douglas.com.br.testemarvel.data.remote.services.HeroesDataManager;
 import douglas.com.br.testemarvel.inject.components.DaggerMainActvityComponent;
 import douglas.com.br.testemarvel.inject.modules.MainActivityModule;
 import douglas.com.br.testemarvel.ui.base.BaseActivity;
-
 import douglas.com.br.testemarvel.ui.heroeslist_fragment.HeroesListFragment;
 
 
@@ -56,6 +55,9 @@ public class MainActivity extends BaseActivity implements MainMvpView, BottomNav
         mBotttomNavigationView.setOnNavigationItemSelectedListener(this);
     }
 
+    /**
+     * Sets the searchview and the query listener
+     */
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         getMenuInflater().inflate(R.menu.main_menu, menu);
@@ -64,6 +66,7 @@ public class MainActivity extends BaseActivity implements MainMvpView, BottomNav
         SearchView searchView = (SearchView) menu.findItem(R.id.search).getActionView();
         searchView.setSearchableInfo(searchManager.getSearchableInfo(getComponentName()));
         searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
+            //
             @Override
             public boolean onQueryTextSubmit(String query) {
                 mHeroesListFragment.startLoading();
@@ -93,7 +96,7 @@ public class MainActivity extends BaseActivity implements MainMvpView, BottomNav
     }
 
     /**
-     * used to setup my fragments inside viewpager
+     * Used to setup my fragments inside viewpager
      */
     public void setupViewPagerAdapter() {
         if (mHeroesListFragment == null) {
@@ -123,6 +126,9 @@ public class MainActivity extends BaseActivity implements MainMvpView, BottomNav
 
     }
 
+    /**
+     * Update the view if has some error
+     */
     @Override
     public void showError() {
         mHeroesListFragment.showError();

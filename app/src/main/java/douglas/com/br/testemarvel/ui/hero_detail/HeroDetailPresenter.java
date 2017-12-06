@@ -15,8 +15,6 @@ import io.reactivex.Observable;
 import io.reactivex.Observer;
 import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.disposables.Disposable;
-import io.reactivex.functions.BiFunction;
-import io.reactivex.functions.Function3;
 import io.reactivex.functions.Function4;
 import io.reactivex.schedulers.Schedulers;
 
@@ -49,6 +47,9 @@ public class HeroDetailPresenter extends BasePresenter<HeroDetailMvpView> {
         RxUtil.dispose(mDisposable);
     }
 
+    /**
+     * Checks the database has this hero id
+     */
     public void verifyIsHeroFavorite(int id) {
         mDataBase.userDao().getHero(id).subscribeOn(Schedulers.io()).observeOn(AndroidSchedulers.mainThread()).subscribe(new MaybeObserver<Hero>() {
             @Override
@@ -73,6 +74,9 @@ public class HeroDetailPresenter extends BasePresenter<HeroDetailMvpView> {
         });
     }
 
+    /**
+     * Get all the hero infos and then sets all the result
+     */
     public void getInfoDetails(int id, int limit) {
         Observable.zip(mDataManager.getComics(id, limit), mDataManager.getEvents(id, limit), mDataManager.getStories(id, limit), mDataManager.getSeries(id, limit),
                 new Function4<GeneralResponse, GeneralResponse, GeneralResponse, GeneralResponse, HeroDetailsModel>() {
@@ -111,6 +115,9 @@ public class HeroDetailPresenter extends BasePresenter<HeroDetailMvpView> {
         });
     }
 
+    /**
+     * Bind all my info
+     */
     public void addHeroDataBase(Hero hero) {
         mDataBase.userDao().insertAll(new Hero(hero.getId()));
     }

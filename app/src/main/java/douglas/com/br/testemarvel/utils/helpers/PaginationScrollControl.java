@@ -22,6 +22,9 @@ public abstract class PaginationScrollControl extends RecyclerView.OnScrollListe
         this.mLinearLayoutManager = mLinearLayoutManager;
     }
 
+    /**
+     * Checks if the end of recyclerview was reached and then tries to get more
+     */
     @Override
     public void onScrolled(RecyclerView recyclerView, int dx, int dy) {
         if (dy > 0) {

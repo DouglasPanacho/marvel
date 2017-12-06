@@ -2,7 +2,6 @@ package douglas.com.br.testemarvel.ui.heroeslist_fragment;
 
 import java.util.List;
 
-import douglas.com.br.testemarvel.data.local.Hero;
 import douglas.com.br.testemarvel.ui.base.MvpView;
 
 /**

@@ -5,6 +5,9 @@ import java.util.List;
 
 /**
  * Created by douglaspanacho on 04/12/2017.
+ * <p>
+ * Class used to set all the items in only one list of objects, being able to create
+ * the headers and set items in the adapter
  */
 
 public class HeroDetailsModel {

@@ -7,6 +7,8 @@ import java.util.List;
 
 /**
  * Created by douglaspanacho on 01/12/2017.
+ *
+ * Response with all items
  */
 
 public class CharactersResponse {

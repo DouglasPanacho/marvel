@@ -5,7 +5,6 @@ import com.jakewharton.retrofit2.adapter.rxjava2.RxJava2CallAdapterFactory;
 import java.io.IOException;
 
 import douglas.com.br.testemarvel.Constants;
-import douglas.com.br.testemarvel.NetworkConstants;
 import douglas.com.br.testemarvel.utils.helpers.Md5HashGenerator;
 import okhttp3.HttpUrl;
 import okhttp3.Interceptor;

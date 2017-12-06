@@ -20,8 +20,6 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import douglas.com.br.testemarvel.Constants;
 import douglas.com.br.testemarvel.R;
-import douglas.com.br.testemarvel.data.AppDatabase;
-import douglas.com.br.testemarvel.data.HeroDatabaseHelper;
 import douglas.com.br.testemarvel.data.local.Hero;
 import douglas.com.br.testemarvel.data.remote.models.response.CharactersResponse;
 import douglas.com.br.testemarvel.ui.base.BaseFragment;
@@ -74,11 +72,15 @@ public class HeroesListFragment extends BaseFragment implements HeroesListMvpVie
         return view;
     }
 
+
     public void initializeRecyclerView() {
         mLinearLayoutManager = new LinearLayoutManager(getContext(), LinearLayoutManager.VERTICAL, false);
         mHeroesRv.setLayoutManager(mLinearLayoutManager);
     }
 
+    /**
+     * Initialize the pagination helper that will be used in the recyclerview
+     */
     private void initializePaginationHelper() {
         mPaginationHelper = new PaginationScrollControl(mAdapter, mLinearLayoutManager) {
             @Override
@@ -100,7 +102,9 @@ public class HeroesListFragment extends BaseFragment implements HeroesListMvpVie
         mHeroesRv.addOnScrollListener(mPaginationHelper);
     }
 
-    //sets the adapter and implements the interface
+    /**
+     * Sets the adapter and implements the interface
+     */
     private void setupAdapter() {
         mAdapter.setListener(new CustomListeners.OnHeroClicked() {
             @Override
@@ -117,7 +121,6 @@ public class HeroesListFragment extends BaseFragment implements HeroesListMvpVie
                 }
             }
 
-
             //if a hero is cliked returns hero and views to use as transition
             @Override
             public void OnHeroClicked(CharactersResponse.Result hero, View image, View name) {
@@ -132,22 +135,31 @@ public class HeroesListFragment extends BaseFragment implements HeroesListMvpVie
         mHeroesRv.setAdapter(mAdapter);
     }
 
-    //set error viewholder in the recyclerview
+
+    /**
+     * Set error viewholder in the recyclerview
+     */
     private void setErrorAdapter() {
         mAdapter.showError();
     }
 
-    //get all my heroes from api
+    /**
+     * Get all my heroes from api
+     */
     private void getHeroes(int offset) {
         mPresenter.getHeroes(offset);
     }
 
-    //update the heroes adapter with the response
+    /**
+     * Update the heroes adapter with the response
+     */
     private void setItemsAdapter(List<CharactersResponse.Result> mItems) {
         mAdapter.updateItems(mItems, mFavoriteHeroes);
     }
 
-    //clear the search and set my current items
+    /**
+     * Clear the search and set my current items
+     */
     public void clearSearch() {
         if (mItems.size() > 0) {
             mAdapter.updateItems(mItems, mFavoriteHeroes);
@@ -169,7 +181,7 @@ public class HeroesListFragment extends BaseFragment implements HeroesListMvpVie
         if (mItems.size() <= 0) {
             setErrorAdapter();
         } else {
-            mAdapter.updateItems(mItems,mFavoriteHeroes);
+            mAdapter.updateItems(mItems, mFavoriteHeroes);
             showToast(getString(R.string.placeholder_no_network_label));
         }
     }
@@ -179,17 +191,24 @@ public class HeroesListFragment extends BaseFragment implements HeroesListMvpVie
 
     }
 
+    /**
+     * Clear the adapter and sets the progress bar in the center of view
+     */
     public void startLoading() {
         mAdapter.clearItems();
     }
 
-    //set the search result in the adapter
+    /**
+     * Set the search result in the adapter
+     */
     public <T> void setSearchResult(T result) {
         setItemsAdapter(((CharactersResponse) result).getData().getResults());
 
     }
 
-    //sets the result and update the page count to get the correct offset. update the pagination helper too
+    /**
+     * Sets the result and update the page count to get the correct offset. update the pagination helper too
+     */
     @Override
     public <T> void setResult(T result) {
         mPaginationHelper.setmLastPageCount(mPageCount);
@@ -202,7 +221,9 @@ public class HeroesListFragment extends BaseFragment implements HeroesListMvpVie
         }
     }
 
-    //get all the heroes again, starting from offset 0
+    /**
+     * Get all the heroes again, starting from offset 0
+     */
     @Override
     public void onRefresh() {
         isRefresh = true;
@@ -213,7 +234,10 @@ public class HeroesListFragment extends BaseFragment implements HeroesListMvpVie
         getHeroes(mPageCount * 20);
     }
 
-    //set all the favorites items in the adapter to update the views
+
+    /**
+     * Set all the favorites items in the adapter to update the views
+     */
     @Override
     public void setFavoritesResult(List<Integer> items) {
         mFavoriteHeroes.clear();
@@ -221,7 +245,9 @@ public class HeroesListFragment extends BaseFragment implements HeroesListMvpVie
         mAdapter.updateFavoriteItems(mFavoriteHeroes);
     }
 
-    //verify if my favourites have changes, if yes update the items
+    /**
+     * Verify if my favourites have changes, if yes update the items
+     */
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);

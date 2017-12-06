@@ -56,8 +56,8 @@
         android:id="@+id/nestedscrollview"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:paddingBottom="@dimen/vertical_small_margin"
         android:clipToPadding="false"
+        android:paddingBottom="@dimen/vertical_small_margin"
 
         app:layout_behavior="@string/appbar_scrolling_view_behavior">
 
@@ -70,10 +70,10 @@
                 android:id="@+id/hero_detail_description_container"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:layout_marginBottom="@dimen/vertical_small_margin"
                 android:layout_marginLeft="@dimen/horizontal_margin"
-                android:layout_marginTop="@dimen/vertical_margin"
                 android:layout_marginRight="@dimen/horizontal_margin"
-
+                android:layout_marginTop="@dimen/vertical_small_margin"
                 app:cardElevation="5dp">
 
                 <TextView
@@ -88,7 +88,6 @@
 
             <FrameLayout
                 android:layout_width="match_parent"
-                android:layout_marginTop="@dimen/vertical_x_small_margin"
                 android:layout_height="match_parent">
 
                 <ProgressBar
@@ -96,6 +95,7 @@
                     android:layout_width="50dp"
                     android:layout_height="50dp"
                     android:layout_gravity="center"
+                    android:layout_marginBottom="@dimen/vertical_small_margin"
                     android:layout_marginTop="@dimen/vertical_small_margin"
                     android:visibility="gone" />
 
@@ -109,9 +109,7 @@
                     <android.support.v7.widget.RecyclerView
                         android:id="@+id/recyclerview"
                         android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_marginLeft="@dimen/horizontal_margin"
-                        android:layout_marginRight="@dimen/horizontal_margin" />
+                        android:layout_height="wrap_content" />
                 </LinearLayout>
             </FrameLayout>
         </LinearLayout>

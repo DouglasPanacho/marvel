@@ -1,6 +1,5 @@
 package douglas.com.br.testemarvel.ui.heroeslist_fragment;
 
-import android.support.v4.content.ContextCompat;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -17,7 +16,6 @@ import java.util.List;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import douglas.com.br.testemarvel.R;
-import douglas.com.br.testemarvel.data.local.Hero;
 import douglas.com.br.testemarvel.data.remote.models.response.CharactersResponse;
 import douglas.com.br.testemarvel.utils.helpers.CustomListeners;
 
@@ -44,7 +42,9 @@ public class HeroListAdapter extends RecyclerView.Adapter {
         return mItems;
     }
 
-    //used to show loader in the end of page
+    /**
+     * Used to show loader in the end of page
+     */
     public void showLoader() {
         hasError = false;
         isLoading = true;
@@ -52,6 +52,9 @@ public class HeroListAdapter extends RecyclerView.Adapter {
         notifyDataSetChanged();
     }
 
+    /**
+     * Used to show error in the view if something is wrong
+     */
     public void showError() {
         hasError = true;
         mItems.clear();
@@ -63,7 +66,9 @@ public class HeroListAdapter extends RecyclerView.Adapter {
         mListener = listener;
     }
 
-    //update mitems and notify that the data has changed
+    /**
+     * Update all items, both heroes and favorites and notify if the data has changed
+     */
     public void updateItems(List<CharactersResponse.Result> items, List<Integer> favoriteItemsIds) {
         isLoading = false;
         hasError = false;
@@ -73,18 +78,26 @@ public class HeroListAdapter extends RecyclerView.Adapter {
         notifyDataSetChanged();
     }
 
+    /**
+     * Update favorites and notify if the data has changed
+     */
     public void updateFavoriteItems(List<Integer> mFavoriteItemsIds) {
         this.mFavoriteItemsIds.addAll(mFavoriteItemsIds);
         notifyDataSetChanged();
     }
 
-    //clear all items
+    /**
+     * Clear all items from adapter
+     */
     public void clearItems() {
         isLoading = true;
         mItems = new ArrayList<>();
         notifyDataSetChanged();
     }
 
+    /**
+     * Get the correct view type
+     */
     @Override
     public int getItemViewType(int position) {
         if (hasError) {
@@ -126,10 +139,14 @@ public class HeroListAdapter extends RecyclerView.Adapter {
         }
     }
 
+    /**
+     * Returns the mitems size if > 0, else returns 1 to use this item as loader or error
+     */
     @Override
     public int getItemCount() {
         return mItems.size() == 0 ? 1 : mItems.size();
     }
+
 
     public class HeroesListAdapteViewHolder extends RecyclerView.ViewHolder {
 
@@ -147,7 +164,9 @@ public class HeroListAdapter extends RecyclerView.Adapter {
             ButterKnife.bind(this, itemView);
         }
 
-        //bind all my info
+        /**
+         * Bind all my info
+         */
         public void bind(final int position) {
             Glide.with(itemView.getContext()).load(mItems.get(position).getThumbnail().getFullPath()).into(mHeroIm);
             mHeroNameTv.setText(mItems.get(position).getName());

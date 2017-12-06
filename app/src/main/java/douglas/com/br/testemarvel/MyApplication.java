@@ -4,7 +4,6 @@ import android.app.Application;
 
 import douglas.com.br.testemarvel.inject.components.DaggerHeroDetailComponent;
 import douglas.com.br.testemarvel.inject.components.DaggerHeroesListComponent;
-import douglas.com.br.testemarvel.inject.components.DaggerMainActvityComponent;
 import douglas.com.br.testemarvel.inject.components.DaggerMyApplicationComponent;
 import douglas.com.br.testemarvel.inject.components.HeroDetailComponent;
 import douglas.com.br.testemarvel.inject.components.HeroesListComponent;

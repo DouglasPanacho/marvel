@@ -1,11 +1,7 @@
 package douglas.com.br.testemarvel.data;
 
-import java.util.List;
-
 import douglas.com.br.testemarvel.data.local.Hero;
-import io.reactivex.Flowable;
 import io.reactivex.Maybe;
-import io.reactivex.Observable;
 
 /**
  * Created by douglaspanacho on 03/12/2017.

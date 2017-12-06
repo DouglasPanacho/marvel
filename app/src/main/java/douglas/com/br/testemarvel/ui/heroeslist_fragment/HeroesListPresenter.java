@@ -4,8 +4,8 @@ import java.util.List;
 
 import douglas.com.br.testemarvel.data.AppDatabase;
 import douglas.com.br.testemarvel.data.local.Hero;
-import douglas.com.br.testemarvel.data.remote.services.HeroesDataManager;
 import douglas.com.br.testemarvel.data.remote.models.response.CharactersResponse;
+import douglas.com.br.testemarvel.data.remote.services.HeroesDataManager;
 import douglas.com.br.testemarvel.ui.base.BasePresenter;
 import io.reactivex.MaybeObserver;
 import io.reactivex.Observer;
@@ -44,7 +44,9 @@ public class HeroesListPresenter extends BasePresenter<HeroesListMvpView> {
         if (mDisposable != null) mDisposable.dispose();
     }
 
-    //get heroes from api
+    /**
+     * Get heroes from api
+     */
     public void getHeroes(int offset) {
         mDataManager.getCharacters(offset).subscribeOn(Schedulers.io()).observeOn(AndroidSchedulers.mainThread()).subscribe(new Observer<CharactersResponse>() {
             @Override
@@ -71,6 +73,7 @@ public class HeroesListPresenter extends BasePresenter<HeroesListMvpView> {
         });
     }
 
+
     public void getHeroesByName(int offset, String name) {
         mDataManager.getCharacters(offset, name).subscribeOn(Schedulers.io()).observeOn(AndroidSchedulers.mainThread()).subscribe(new Observer<CharactersResponse>() {
             @Override
@@ -95,10 +98,16 @@ public class HeroesListPresenter extends BasePresenter<HeroesListMvpView> {
         });
     }
 
+    /**
+     * Insert new hero in the database
+     */
     public void addHeroDataBase(Hero hero) {
         mDataBase.userDao().insertAll(new Hero(hero.getId()));
     }
 
+    /**
+     * Delete a hero that have the same id
+     */
     public void deleteHeroDataBase(int heroId) {
         mDataBase.userDao().deleteHero(heroId);
     }
@@ -128,6 +137,9 @@ public class HeroesListPresenter extends BasePresenter<HeroesListMvpView> {
         });
     }
 
+    /**
+     * Get all the favorite heroes ids
+     */
     public void getFavoriteHeroesIds() {
         mDataBase.userDao().getAllIds().subscribeOn(Schedulers.io()).observeOn(AndroidSchedulers.mainThread()).subscribe(new MaybeObserver<List<Integer>>() {
             @Override

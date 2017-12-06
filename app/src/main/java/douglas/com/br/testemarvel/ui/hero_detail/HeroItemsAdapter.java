@@ -84,6 +84,9 @@ public class HeroItemsAdapter extends RecyclerView.Adapter {
             ButterKnife.bind(this, itemView);
         }
 
+        /**
+         * Bind all my info
+         */
         public void bind(final int position) {
             if (mItems.getResult().get(position) instanceof GeneralResponse.Result) {
                 Glide.with(itemView.getContext()).load(((GeneralResponse.Result) mItems.getResult().get(position)).getThumbnail().getFullPath())
@@ -109,6 +112,9 @@ public class HeroItemsAdapter extends RecyclerView.Adapter {
             ButterKnife.bind(this, itemView);
         }
 
+        /**
+         * Bind all my info
+         */
         public void bind(int position) {
             if (mItems.getResult().get(position) instanceof HeaderModel) {
                 mTitleTv.setText(((HeaderModel) mItems.getResult().get(position)).getSectionName());

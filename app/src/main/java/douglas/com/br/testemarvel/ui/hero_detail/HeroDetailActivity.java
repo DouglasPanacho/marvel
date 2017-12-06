@@ -35,6 +35,9 @@ import douglas.com.br.testemarvel.utils.helpers.CustomListeners;
 
 /**
  * Created by douglaspanacho on 02/12/2017.
+ * <p>
+ * This class is used to show heroes details, like descriptions and comics, series, stories and events
+ * that this hero takes part
  */
 
 public class HeroDetailActivity extends BaseActivity implements HeroDetailMvpView, CustomListeners.OnItemClickedListener {
@@ -75,7 +78,10 @@ public class HeroDetailActivity extends BaseActivity implements HeroDetailMvpVie
         getExtras();
     }
 
-    //verify if has some extra to set the hero image and des
+
+    /**
+     * Verify if has some extra to set the hero image and description
+     */
     public void getExtras() {
         if (getIntent().hasExtra(Constants.HERO_EXTRA)) {
             mHeroItem = getIntent().getParcelableExtra(Constants.HERO_EXTRA);
@@ -84,12 +90,17 @@ public class HeroDetailActivity extends BaseActivity implements HeroDetailMvpVie
         }
     }
 
-    //get all the heroe detail like comics, series, events and stories
+    /**
+     * Get all the hero detail like comics, series, events and stories
+     */
     public void doRequests() {
         mPresenter.getInfoDetails(mHeroItem.getId(), 3);
     }
 
-    //bind all the view with de hero data
+
+    /**
+     * Bind all the view with de hero data
+     */
     public void bind() {
         Glide.with(this).load(mHeroItem.getThumbnail().getFullPath()).apply(new RequestOptions().dontTransform()).into(mHeroIm);
         setToolbar(mHeroItem.getName(), true);
@@ -110,7 +121,9 @@ public class HeroDetailActivity extends BaseActivity implements HeroDetailMvpVie
     }
 
 
-    //sets my adapter and defines de spansizelookup acording to the view, header or not
+    /**
+     * Sets my adapter and defines de spansizelookup acording to the view, header or not
+     */
     public void setupAdapter(final HeroDetailsModel item) {
         if (item.getResult().size() > 0) {
             mLinearLayoutContainer.setVisibility(View.VISIBLE);
@@ -132,6 +145,9 @@ public class HeroDetailActivity extends BaseActivity implements HeroDetailMvpVie
     }
 
 
+    /**
+     * Checks if the favorites database has changed
+     */
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         if (item == mFavoriteMenuItem) {
@@ -182,6 +198,9 @@ public class HeroDetailActivity extends BaseActivity implements HeroDetailMvpVie
         }
     }
 
+    /**
+     * Update menu icon if the hero is favorite
+     */
     @Override
     public void isHeroFavorite() {
         mFavoriteMenuItem.setChecked(true);
@@ -189,7 +208,6 @@ public class HeroDetailActivity extends BaseActivity implements HeroDetailMvpVie
     }
 
 
-    //used to change icon
     public void isItemChecked(boolean isChecked) {
         if (!isChecked) {
             mFavoriteMenuItem.setIcon(R.drawable.ic_empty_star_white);
@@ -216,7 +234,9 @@ public class HeroDetailActivity extends BaseActivity implements HeroDetailMvpVie
         super.finish();
     }
 
-
+    /**
+     * Creates a new dialog and shows the hero detail
+     */
     @Override
     public void OnItemClicked(GeneralResponse.Result item) {
         HeroItemInfoDialog mDialog = new HeroItemInfoDialog(this, item);

@@ -57,7 +57,10 @@ public class HeroItemInfoDialog extends Dialog {
         }
     }
 
-    public void bind() {
+    /**
+     * Bind all my info into the views
+     */
+    private void bind() {
         Glide.with(getContext()).load(mItem.getThumbnail().getFullPath()).apply(new RequestOptions().placeholder(R.drawable.placeholder_im)).into(mDetailIm);
         if (mItem.getTitle() != null) {
             mTitleTv.setText(mItem.getTitle());

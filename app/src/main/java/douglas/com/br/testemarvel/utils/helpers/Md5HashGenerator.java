@@ -1,7 +1,5 @@
 package douglas.com.br.testemarvel.utils.helpers;
 
-import android.util.Log;
-
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.Locale;
@@ -16,6 +14,9 @@ import douglas.com.br.testemarvel.Constants;
 
 public class Md5HashGenerator {
 
+    /**
+     * Generate the md5 using a time stamp and key infos
+     */
     public static String generateMd5(String ts) {
 
         ts = ts + Constants.PRIVATE_KEY + Constants.PUBLIC_KEY;

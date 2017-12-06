@@ -1,6 +1,5 @@
 package douglas.com.br.testemarvel.ui.hero_detail;
 
-import douglas.com.br.testemarvel.data.remote.models.response.GeneralResponse;
 import douglas.com.br.testemarvel.ui.base.MvpView;
 
 /**
