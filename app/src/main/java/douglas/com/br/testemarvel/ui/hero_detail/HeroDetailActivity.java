@@ -163,7 +163,7 @@ public class HeroDetailActivity extends BaseActivity implements HeroDetailMvpVie
                 isDatabaseUpdated = true;
             }
         } else if (item.getItemId() == android.R.id.home) {
-            finish();
+            onBackPressed();
         }
         return true;
     }
