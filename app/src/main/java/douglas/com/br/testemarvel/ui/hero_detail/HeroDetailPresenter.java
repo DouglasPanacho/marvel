@@ -9,6 +9,7 @@ import douglas.com.br.testemarvel.data.remote.models.response.GeneralResponse;
 import douglas.com.br.testemarvel.data.remote.models.response.HeroDetailsModel;
 import douglas.com.br.testemarvel.data.remote.services.HeroesDataManager;
 import douglas.com.br.testemarvel.ui.base.BasePresenter;
+import douglas.com.br.testemarvel.utils.helpers.RxUtil;
 import io.reactivex.MaybeObserver;
 import io.reactivex.Observable;
 import io.reactivex.Observer;
@@ -29,7 +30,7 @@ public class HeroDetailPresenter extends BasePresenter<HeroDetailMvpView> {
     HeroesDataManager mDataManager;
     AppDatabase mDataBase;
 
-    private Disposable mDisposable;
+    private List<Disposable> mDisposable = new ArrayList<>();
     private HeroDetailMvpView mMvpView;
 
     public HeroDetailPresenter(HeroesDataManager dataManager, AppDatabase database) {
@@ -42,11 +43,17 @@ public class HeroDetailPresenter extends BasePresenter<HeroDetailMvpView> {
         this.mMvpView = mvpView;
     }
 
+    @Override
+    public void detachView() {
+        super.detachView();
+        RxUtil.dispose(mDisposable);
+    }
+
     public void verifyIsHeroFavorite(int id) {
         mDataBase.userDao().getHero(id).subscribeOn(Schedulers.io()).observeOn(AndroidSchedulers.mainThread()).subscribe(new MaybeObserver<Hero>() {
             @Override
             public void onSubscribe(Disposable d) {
-
+                mDisposable.add(d);
             }
 
             @Override
@@ -82,7 +89,7 @@ public class HeroDetailPresenter extends BasePresenter<HeroDetailMvpView> {
 
             @Override
             public void onSubscribe(Disposable d) {
-
+                mDisposable.add(d);
             }
 
             @Override
@@ -103,32 +110,6 @@ public class HeroDetailPresenter extends BasePresenter<HeroDetailMvpView> {
             }
         });
     }
-
-//    public void getComics(int id, int limit) {
-//        mDataManager.getComics(id, limit).subscribeOn(Schedulers.io()).observeOn(AndroidSchedulers.mainThread()).subscribe(new Observer<GeneralResponse>() {
-//            @Override
-//            public void onSubscribe(Disposable d) {
-//
-//            }
-//
-//            @Override
-//            public void onNext(GeneralResponse comicsResponse) {
-//                comicsResponse.toString();
-//            }
-//
-//            @Override
-//            public void onError(Throwable e) {
-//
-//            }
-//
-//            @Override
-//            public void onComplete() {
-//
-//            }
-//        });
-//
-//    }
-
 
     public void addHeroDataBase(Hero hero) {
         mDataBase.userDao().insertAll(new Hero(hero.getId()));

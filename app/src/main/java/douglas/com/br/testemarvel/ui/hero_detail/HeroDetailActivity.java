@@ -212,6 +212,7 @@ public class HeroDetailActivity extends BaseActivity implements HeroDetailMvpVie
         if (isDatabaseUpdated) {
             setResult(RESULT_OK);
         }
+        mPresenter.detachView();
         super.finish();
     }
 
