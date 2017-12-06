@@ -16,6 +16,7 @@ import douglas.com.br.testemarvel.inject.modules.MyApplicationModule;
 
 public class MyApplication extends Application {
 
+
     private MyApplicationComponent myApplicationComponent;
     private HeroesListComponent mHeroListComponent;
     private HeroDetailComponent mHeroDetailComponent;

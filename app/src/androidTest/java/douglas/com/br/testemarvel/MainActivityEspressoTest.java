@@ -14,6 +14,7 @@ import static android.support.test.espresso.Espresso.onView;
 import static android.support.test.espresso.action.ViewActions.click;
 import static android.support.test.espresso.action.ViewActions.pressImeActionButton;
 import static android.support.test.espresso.action.ViewActions.typeText;
+import static android.support.test.espresso.assertion.ViewAssertions.doesNotExist;
 import static android.support.test.espresso.assertion.ViewAssertions.matches;
 import static android.support.test.espresso.matcher.RootMatchers.withDecorView;
 import static android.support.test.espresso.matcher.ViewMatchers.isDisplayed;
@@ -43,7 +44,6 @@ public class MainActivityEspressoTest {
 
     @Test
     public void ensureSearcNotFound() {
-        //
         onView(withId(R.id.search)).perform(click());
         onView(withId(android.support.design.R.id.search_src_text)).perform(typeText("maasdasd"),pressImeActionButton());
         onView(withText(R.string.placeholder_no_results_label)).inRoot(withDecorView(is(mActivityRule.getActivity().getWindow().getDecorView()))).check(matches(isDisplayed()));
