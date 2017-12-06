@@ -5,4 +5,16 @@ package douglas.com.br.testemarvel.ui.base;
  */
 
 public interface MvpView {
+
+    void showProgress();
+
+    void hideProgress();
+
+    void showError();
+
+    void showError(String error);
+
+    <T> void setResult(T result);
+
+
 }

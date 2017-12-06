@@ -1,3 +1,19 @@
 <resources>
     <string name="app_name">TesteMarvel</string>
+    <string name="placeholder_try_again_label">Try Again</string>
+    <string name="placeholder_reload_label">Reload</string>
+    <string name="placeholder_no_results_label">No results for this hero</string>
+    <!--MENU ITEMS NAME-->
+    <string name="placeholder_favorite_label">Favorites</string>
+    <string name="placeholder_heroes_label">Heroes</string>
+
+    <!--HERO ITEM DETAILS-->
+    <string name="placeholder_creators_label">Creators</string>
+    <string name="placeholder_description_label">Description</string>
+
+    <!--TRANSITIONS-->
+    <string name="transition_name">image_transition</string>
+
+    <!--DATABASE LABELS-->
+    <string name="heroes_database_name">heroes-database</string>
 </resources>

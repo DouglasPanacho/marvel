@@ -5,4 +5,6 @@ package douglas.com.br.testemarvel;
  */
 
 public class NetworkConstants {
+
+    public static String BASE_URL = "https://gateway.marvel.com:443/v1/public/";
 }
