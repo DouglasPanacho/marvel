@@ -44,7 +44,7 @@ public class HeroesListPresenter extends BasePresenter<HeroesListMvpView> {
         if (mDisposable != null) mDisposable.dispose();
     }
 
-
+    //get heroes from api
     public void getHeroes(int offset) {
         mDataManager.getCharacters(offset).subscribeOn(Schedulers.io()).observeOn(AndroidSchedulers.mainThread()).subscribe(new Observer<CharactersResponse>() {
             @Override
