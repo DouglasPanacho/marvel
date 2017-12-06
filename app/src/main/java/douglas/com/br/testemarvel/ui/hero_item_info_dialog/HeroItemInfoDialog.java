@@ -33,8 +33,6 @@ public class HeroItemInfoDialog extends Dialog {
     TextView mDescriptionTv;
     @BindView(R.id.item_detail_im)
     ImageView mDetailIm;
-    @BindView(R.id.item_detail_text_tv)
-    TextView mTextTv;
     @BindView(R.id.item_detail_creators_ll)
     LinearLayout mCreatorsContainerll;
     @BindView(R.id.item_detail_description_ll)

@@ -65,9 +65,9 @@ public class HeroesListFragment extends BaseFragment implements HeroesListMvpVie
         ButterKnife.bind(this, view);
         getApplication().getmHeroListComponent().inject(this);
         setupAdapter();
-        mSwipeRefresh.setOnRefreshListener(this);
         initializeRecyclerView();
         initializePaginationHelper();
+        mSwipeRefresh.setOnRefreshListener(this);
         mPresenter.getFavoriteHeroesIds();
         mPresenter.getHeroes(0);
         mPresenter.attachView(this);
@@ -166,7 +166,12 @@ public class HeroesListFragment extends BaseFragment implements HeroesListMvpVie
 
     @Override
     public void showError() {
-        setErrorAdapter();
+        if (mItems.size() <= 0) {
+            setErrorAdapter();
+        } else {
+            mAdapter.updateItems(mItems,mFavoriteHeroes);
+            showToast(getString(R.string.placeholder_no_network_label));
+        }
     }
 
     @Override

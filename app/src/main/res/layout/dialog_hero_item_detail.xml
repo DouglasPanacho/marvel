@@ -102,18 +102,6 @@
                     android:layout_marginTop="@dimen/vertical_small_margin" />
             </LinearLayout>
 
-            <LinearLayout
-                android:id="@+id/item_detail_text_ll"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="@dimen/vertical_small_margin"
-                android:orientation="vertical">
-
-                <TextView
-                    android:id="@+id/item_detail_text_tv"
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent" />
-            </LinearLayout>
 
         </LinearLayout>
     </ScrollView>

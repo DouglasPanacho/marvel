@@ -126,6 +126,7 @@ public class MainActivity extends BaseActivity implements MainMvpView, BottomNav
     @Override
     public void showError() {
         mHeroesListFragment.showError();
+        mSearchMenuItem.collapseActionView();
     }
 
     @Override
