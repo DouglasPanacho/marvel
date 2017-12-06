@@ -46,7 +46,7 @@ public class MainPresenter extends BasePresenter<MainMvpView> {
         if (mDisposable != null) mDisposable.dispose();
     }
 
-
+    //gets the hero by name
     public void getHeroesByName(int offset, String name) {
         mDataManager.getCharacters(offset, name).subscribeOn(Schedulers.io()).observeOn(AndroidSchedulers.mainThread()).subscribe(new Observer<CharactersResponse>() {
             @Override
@@ -61,7 +61,7 @@ public class MainPresenter extends BasePresenter<MainMvpView> {
 
             @Override
             public void onError(Throwable e) {
-
+                mMvpView.showError();
             }
 
             @Override

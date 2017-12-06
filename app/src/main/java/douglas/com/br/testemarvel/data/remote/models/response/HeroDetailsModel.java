@@ -18,24 +18,26 @@ public class HeroDetailsModel {
 
     //add my items to the array and set the type
     public void addItem(List<GeneralResponse.Result> items, int type) {
-        switch (type) {
-            case TYPE_COMICS:
-                result.add(new HeaderModel("Comics"));
-                break;
-            case TYPE_EVENTS:
-                result.add(new HeaderModel("Events"));
-                break;
-            case TYPE_STORIES:
-                result.add(new HeaderModel("Stories"));
-                break;
-            case TYPE_SERIES:
-                result.add(new HeaderModel("Series"));
-                break;
-        }
-        for (GeneralResponse.Result item : items
-                ) {
-            item.setiTemtype(type);
-            result.add(item);
+        if (items.size() > 0) {
+            switch (type) {
+                case TYPE_COMICS:
+                    result.add(new HeaderModel("Comics"));
+                    break;
+                case TYPE_EVENTS:
+                    result.add(new HeaderModel("Events"));
+                    break;
+                case TYPE_STORIES:
+                    result.add(new HeaderModel("Stories"));
+                    break;
+                case TYPE_SERIES:
+                    result.add(new HeaderModel("Series"));
+                    break;
+            }
+            for (GeneralResponse.Result item : items
+                    ) {
+                item.setiTemtype(type);
+                result.add(item);
+            }
         }
     }
 

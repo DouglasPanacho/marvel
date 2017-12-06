@@ -88,11 +88,13 @@ public class HeroDetailPresenter extends BasePresenter<HeroDetailMvpView> {
             @Override
             public void onNext(HeroDetailsModel items) {
                 mMvpView.setResult(items);
+                mMvpView.hideProgress();
             }
 
             @Override
             public void onError(Throwable e) {
-
+                mMvpView.hideProgress();
+                mMvpView.showError();
             }
 
             @Override

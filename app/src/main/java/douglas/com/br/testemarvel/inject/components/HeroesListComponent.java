@@ -18,5 +18,4 @@ public interface HeroesListComponent {
 
     void inject(HeroesListFragment fragment);
 
-//    HeroesListPresenter providHeroesListPresenter();
 }

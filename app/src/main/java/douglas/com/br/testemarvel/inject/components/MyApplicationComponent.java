@@ -14,8 +14,8 @@ import douglas.com.br.testemarvel.inject.modules.MyApplicationModule;
 @Component(modules = {MyApplicationModule.class})
 public interface MyApplicationComponent {
 
-    // void inject(MyService service);
 
+    //Provides to the dependant componentes both AppDatabase and HeroesDataManager
     HeroesDataManager providesHeroDataMAnager();
 
     AppDatabase provideHeroesDataBaseHelper();

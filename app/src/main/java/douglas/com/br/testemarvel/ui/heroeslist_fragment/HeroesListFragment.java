@@ -100,6 +100,7 @@ public class HeroesListFragment extends BaseFragment implements HeroesListMvpVie
         mHeroesRv.addOnScrollListener(mPaginationHelper);
     }
 
+    //sets the adapter and implements the interface
     private void setupAdapter() {
         mAdapter.setListener(new CustomListeners.OnHeroClicked() {
             @Override
@@ -117,6 +118,7 @@ public class HeroesListFragment extends BaseFragment implements HeroesListMvpVie
             }
 
 
+            //if a hero is cliked returns hero and views to use as transition
             @Override
             public void OnHeroClicked(CharactersResponse.Result hero, View image, View name) {
                 Intent intent = new Intent(getActivity(), HeroDetailActivity.class);
@@ -130,22 +132,29 @@ public class HeroesListFragment extends BaseFragment implements HeroesListMvpVie
         mHeroesRv.setAdapter(mAdapter);
     }
 
+    //set error viewholder in the recyclerview
+    private void setErrorAdapter() {
+        mAdapter.showError();
+    }
 
+    //get all my heroes from api
     private void getHeroes(int offset) {
         mPresenter.getHeroes(offset);
     }
 
+    //update the heroes adapter with the response
     private void setItemsAdapter(List<CharactersResponse.Result> mItems) {
         mAdapter.updateItems(mItems, mFavoriteHeroes);
     }
 
-
+    //clear the search and set my current items
     public void clearSearch() {
-        mAdapter.updateItems(mItems, mFavoriteHeroes);
+        if (mItems.size() > 0) {
+            mAdapter.updateItems(mItems, mFavoriteHeroes);
+        }
     }
 
     @Override
-
     public void showProgress() {
         mSwipeRefresh.setRefreshing(true);
     }
@@ -157,7 +166,7 @@ public class HeroesListFragment extends BaseFragment implements HeroesListMvpVie
 
     @Override
     public void showError() {
-
+        setErrorAdapter();
     }
 
     @Override
@@ -169,12 +178,13 @@ public class HeroesListFragment extends BaseFragment implements HeroesListMvpVie
         mAdapter.clearItems();
     }
 
+    //set the search result in the adapter
     public <T> void setSearchResult(T result) {
         setItemsAdapter(((CharactersResponse) result).getData().getResults());
 
     }
 
-    //todo refatorar essas coisas
+    //sets the result and update the page count to get the correct offset. update the pagination helper too
     @Override
     public <T> void setResult(T result) {
         mPaginationHelper.setmLastPageCount(mPageCount);
@@ -187,6 +197,7 @@ public class HeroesListFragment extends BaseFragment implements HeroesListMvpVie
         }
     }
 
+    //get all the heroes again, starting from offset 0
     @Override
     public void onRefresh() {
         isRefresh = true;
@@ -197,6 +208,7 @@ public class HeroesListFragment extends BaseFragment implements HeroesListMvpVie
         getHeroes(mPageCount * 20);
     }
 
+    //set all the favorites items in the adapter to update the views
     @Override
     public void setFavoritesResult(List<Integer> items) {
         mFavoriteHeroes.clear();
@@ -212,4 +224,5 @@ public class HeroesListFragment extends BaseFragment implements HeroesListMvpVie
             mPresenter.getFavoriteHeroesIds();
         }
     }
+
 }

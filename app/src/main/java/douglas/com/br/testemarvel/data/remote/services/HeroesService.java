@@ -9,6 +9,8 @@ import retrofit2.http.Query;
 
 /**
  * Created by douglaspanacho on 01/12/2017.
+ *
+ * Definition of endpoins and returns of the api
  */
 
 public interface HeroesService {
@@ -31,7 +33,4 @@ public interface HeroesService {
     @GET("characters/{characterId}/series")
     Observable<GeneralResponse> getSeries(@Path("characterId") int characterId, @Query("limit") int limit);
 
-
-//
-//    GET /v1/public/characters/{characterId}
 }

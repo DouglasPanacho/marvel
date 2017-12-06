@@ -1,6 +1,8 @@
 <resources>
     <string name="app_name">TesteMarvel</string>
-
+    <string name="placeholder_try_again_label">Try Again</string>
+    <string name="placeholder_reload_label">Reload</string>
+    <string name="placeholder_no_results_label">No results for this hero</string>
     <!--MENU ITEMS NAME-->
     <string name="placeholder_favorite_label">Favorites</string>
     <string name="placeholder_heroes_label">Heroes</string>

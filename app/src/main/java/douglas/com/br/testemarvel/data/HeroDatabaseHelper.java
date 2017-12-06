@@ -9,6 +9,8 @@ import io.reactivex.Observable;
 
 /**
  * Created by douglaspanacho on 03/12/2017.
+ *
+ * Responsable of make interaction with the database
  */
 
 public class HeroDatabaseHelper {

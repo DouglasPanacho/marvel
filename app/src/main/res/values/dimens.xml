@@ -8,12 +8,18 @@
     <dimen name="horizontal_margin">16dp</dimen>
     <dimen name="horizontal_medium_margin">24dp</dimen>
     <dimen name="horizontal_large_margin">32dp</dimen>
+    <dimen name="vertical_x_small_margin">4dp</dimen>
     <dimen name="vertical_small_margin">8dp</dimen>
     <dimen name="vertical_margin">16dp</dimen>
     <dimen name="vertical_medium_margin">24dp</dimen>
     <dimen name="vertical_large_margin">32dp</dimen>
     <dimen name="vertical_x_large_margin">40dp</dimen>
     <dimen name="vertical_xx_large_margin">64dp</dimen>
+
+
+    <!--PADDING-->
+    <dimen name="padding_small">5dp</dimen>
+    <dimen name="padding_medium">10dp</dimen>
 
     <!--TEXT SIZES-->
     <dimen name="text_headline">30sp</dimen>

@@ -60,6 +60,7 @@ public class HeroesListPresenter extends BasePresenter<HeroesListMvpView> {
 
             @Override
             public void onError(Throwable e) {
+                mMvpView.showError();
                 mMvpView.hideProgress();
             }
 

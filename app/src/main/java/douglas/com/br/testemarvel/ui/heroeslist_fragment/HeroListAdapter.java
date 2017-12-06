@@ -31,7 +31,8 @@ public class HeroListAdapter extends RecyclerView.Adapter {
     private List<Integer> mFavoriteItemsIds;
     private CustomListeners.OnHeroClicked mListener;
     private boolean isLoading = true;
-    private int TYPE_LEFT = 0, TYPE_RIGHT = 1, TYPE_EMPTY = 2, TYPE_LOADING = 3;
+    private boolean hasError = false;
+    private int TYPE_LEFT = 0, TYPE_RIGHT = 1, TYPE_ERROR = 2, TYPE_LOADING = 3;
 
 
     public HeroListAdapter(List<CharactersResponse.Result> mItems, List<Integer> favoriteItemsIds) {
@@ -45,8 +46,16 @@ public class HeroListAdapter extends RecyclerView.Adapter {
 
     //used to show loader in the end of page
     public void showLoader() {
-        mItems.add(new CharactersResponse.Result());
+        hasError = false;
         isLoading = true;
+        mItems.add(new CharactersResponse.Result());
+        notifyDataSetChanged();
+    }
+
+    public void showError() {
+        hasError = true;
+        mItems.clear();
+        mItems.add(new CharactersResponse.Result());
         notifyDataSetChanged();
     }
 
@@ -57,6 +66,7 @@ public class HeroListAdapter extends RecyclerView.Adapter {
     //update mitems and notify that the data has changed
     public void updateItems(List<CharactersResponse.Result> items, List<Integer> favoriteItemsIds) {
         isLoading = false;
+        hasError = false;
         mItems.clear();
         mItems.addAll(items);
         mFavoriteItemsIds = favoriteItemsIds;
@@ -77,7 +87,9 @@ public class HeroListAdapter extends RecyclerView.Adapter {
 
     @Override
     public int getItemViewType(int position) {
-        if (isLoading && mItems.size() - 1 == position || isLoading && mItems.size() == 0) {
+        if (hasError) {
+            return TYPE_ERROR;
+        } else if (isLoading && mItems.size() - 1 == position || isLoading && mItems.size() == 0) {
             return TYPE_LOADING;
         } else {
             if (position % 2 == 0) {
@@ -96,9 +108,12 @@ public class HeroListAdapter extends RecyclerView.Adapter {
         } else if (viewType == TYPE_RIGHT) {
             View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.item_heroes_right, parent, false);
             return new HeroesListAdapteViewHolder(view);
-        } else {
+        } else if (viewType == TYPE_LOADING) {
             View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.loading_placeholder, parent, false);
             return new LoadingViewHolder(view);
+        } else {
+            View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.item_error, parent, false);
+            return new ErrorViewHolder(view);
         }
     }
 
@@ -134,7 +149,7 @@ public class HeroListAdapter extends RecyclerView.Adapter {
 
         //bind all my info
         public void bind(final int position) {
-            Glide.with(itemView.getContext()).load(mItems.get(position).getThumbnail().getFullPath()).thumbnail(0.1f).into(mHeroIm);
+            Glide.with(itemView.getContext()).load(mItems.get(position).getThumbnail().getFullPath()).into(mHeroIm);
             mHeroNameTv.setText(mItems.get(position).getName());
             if (!mItems.get(position).getDescription().isEmpty()) {
                 mHeroDescriptionTv.setVisibility(View.VISIBLE);
@@ -184,6 +199,14 @@ public class HeroListAdapter extends RecyclerView.Adapter {
                 layoutParams.setMargins(0, (int) itemView.getContext().getResources().getDimension(R.dimen.vertical_margin), 0, 0);
                 mContainerll.setLayoutParams(layoutParams);
             }
+        }
+
+    }
+
+    public class ErrorViewHolder extends RecyclerView.ViewHolder {
+
+        public ErrorViewHolder(View itemView) {
+            super(itemView);
         }
 
     }

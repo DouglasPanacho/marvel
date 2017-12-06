@@ -51,6 +51,7 @@ public class MyApplicationModule {
         return new HeroesDataManager();
     }
 
+    //provides the app database called heroes-database
     @Singleton
     @Provides
     AppDatabase provideHeroesDataBaseHelper() {

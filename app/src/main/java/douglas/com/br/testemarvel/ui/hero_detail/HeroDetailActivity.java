@@ -9,7 +9,6 @@ import android.support.v7.widget.RecyclerView;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
-import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ProgressBar;
@@ -62,6 +61,7 @@ public class HeroDetailActivity extends BaseActivity implements HeroDetailMvpVie
     private CharactersResponse.Result mHeroItem;
     private MenuItem mFavoriteMenuItem;
     private boolean isDatabaseUpdated = false;
+    private boolean isProgressEnabled = true;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -71,9 +71,11 @@ public class HeroDetailActivity extends BaseActivity implements HeroDetailMvpVie
         ButterKnife.bind(this);
         mPresenter.attachView(this);
         mRecyclerView.setNestedScrollingEnabled(false);
+        showProgress();
         getExtras();
     }
 
+    //verify if has some extra to set the hero image and des
     public void getExtras() {
         if (getIntent().hasExtra(Constants.HERO_EXTRA)) {
             mHeroItem = getIntent().getParcelableExtra(Constants.HERO_EXTRA);
@@ -82,15 +84,17 @@ public class HeroDetailActivity extends BaseActivity implements HeroDetailMvpVie
         }
     }
 
+    //get all the heroe detail like comics, series, events and stories
     public void doRequests() {
         mPresenter.getInfoDetails(mHeroItem.getId(), 3);
     }
 
-
+    //bind all the view with de hero data
     public void bind() {
         Glide.with(this).load(mHeroItem.getThumbnail().getFullPath()).apply(new RequestOptions().dontTransform()).into(mHeroIm);
         setToolbar(mHeroItem.getName(), true);
         if (!mHeroItem.getDescription().isEmpty()) {
+            mHeroDescriptionCv.setVisibility(View.VISIBLE);
             mHeroDescriptionTv.setText(mHeroItem.getDescription());
         } else {
             mHeroDescriptionCv.setVisibility(View.GONE);
@@ -108,21 +112,23 @@ public class HeroDetailActivity extends BaseActivity implements HeroDetailMvpVie
 
     //sets my adapter and defines de spansizelookup acording to the view, header or not
     public void setupAdapter(final HeroDetailsModel item) {
-        mLinearLayoutContainer.setVisibility(View.VISIBLE);
-        mProgressBar.setVisibility(View.GONE);
-        mAdapter.updateItems(item);
-        mAdapter.setmListener(this);
-        GridLayoutManager mGridLayoutManager = new GridLayoutManager(this, 3);
-        mGridLayoutManager.setSpanSizeLookup(new GridLayoutManager.SpanSizeLookup() {
-            @Override
-            public int getSpanSize(final int position) {
-                if (item.getResult().get(position) instanceof HeaderModel) {
-                    return 3;
-                } else return 1;
-            }
-        });
-        mRecyclerView.setLayoutManager(mGridLayoutManager);
-        mRecyclerView.setAdapter(mAdapter);
+        if (item.getResult().size() > 0) {
+            mLinearLayoutContainer.setVisibility(View.VISIBLE);
+            hideProgress();
+            mAdapter.updateItems(item);
+            mAdapter.setmListener(this);
+            GridLayoutManager mGridLayoutManager = new GridLayoutManager(this, 3);
+            mGridLayoutManager.setSpanSizeLookup(new GridLayoutManager.SpanSizeLookup() {
+                @Override
+                public int getSpanSize(final int position) {
+                    if (item.getResult().get(position) instanceof HeaderModel) {
+                        return 3;
+                    } else return 1;
+                }
+            });
+            mRecyclerView.setLayoutManager(mGridLayoutManager);
+            mRecyclerView.setAdapter(mAdapter);
+        }
     }
 
 
@@ -148,17 +154,18 @@ public class HeroDetailActivity extends BaseActivity implements HeroDetailMvpVie
 
     @Override
     public void showProgress() {
-
+        mProgressBar.setVisibility(View.VISIBLE);
     }
 
     @Override
     public void hideProgress() {
-
+        isProgressEnabled = false;
+        mProgressBar.setVisibility(View.GONE);
     }
 
     @Override
     public void showError() {
-
+        showToast(getString(R.string.placeholder_no_results_label));
     }
 
     @Override
@@ -168,7 +175,11 @@ public class HeroDetailActivity extends BaseActivity implements HeroDetailMvpVie
 
     @Override
     public <T> void setResult(T result) {
-        setupAdapter((HeroDetailsModel) result);
+        if (((HeroDetailsModel) result).getResult().size() > 0) {
+            setupAdapter((HeroDetailsModel) result);
+        } else {
+            showToast(getString(R.string.placeholder_no_results_label));
+        }
     }
 
     @Override
@@ -184,6 +195,15 @@ public class HeroDetailActivity extends BaseActivity implements HeroDetailMvpVie
             mFavoriteMenuItem.setIcon(R.drawable.ic_empty_star_white);
         } else {
             mFavoriteMenuItem.setIcon(R.drawable.ic_fill_star);
+        }
+    }
+
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        if (!isProgressEnabled) {
+            hideProgress();
         }
     }
 

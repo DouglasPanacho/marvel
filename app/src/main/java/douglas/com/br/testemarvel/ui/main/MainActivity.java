@@ -16,12 +16,12 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import douglas.com.br.testemarvel.MyApplication;
 import douglas.com.br.testemarvel.R;
+import douglas.com.br.testemarvel.data.remote.models.response.CharactersResponse;
 import douglas.com.br.testemarvel.data.remote.services.HeroesDataManager;
 import douglas.com.br.testemarvel.inject.components.DaggerMainActvityComponent;
 import douglas.com.br.testemarvel.inject.modules.MainActivityModule;
 import douglas.com.br.testemarvel.ui.base.BaseActivity;
 
-import douglas.com.br.testemarvel.ui.base.MvpView;
 import douglas.com.br.testemarvel.ui.heroeslist_fragment.HeroesListFragment;
 
 
@@ -29,6 +29,7 @@ public class MainActivity extends BaseActivity implements MainMvpView, BottomNav
 
 
     private HeroesListFragment mHeroesListFragment;
+    private MenuItem mSearchMenuItem;
 
     @Inject
     MainPagerAdapter mMainPagerAdapter;
@@ -49,7 +50,7 @@ public class MainActivity extends BaseActivity implements MainMvpView, BottomNav
                 .mainActivityModule(new MainActivityModule(this)).build().inject(this);
         setContentView(R.layout.activity_main);
         ButterKnife.bind(this);
-        setToolbar("TesteMarvel");
+        setToolbar(getString(R.string.app_name));
         setupViewPagerAdapter();
         mPresenter.attachView(this);
         mBotttomNavigationView.setOnNavigationItemSelectedListener(this);
@@ -58,7 +59,7 @@ public class MainActivity extends BaseActivity implements MainMvpView, BottomNav
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         getMenuInflater().inflate(R.menu.main_menu, menu);
-        MenuItem searchMenuItem = menu.findItem(R.id.search);
+        mSearchMenuItem = menu.findItem(R.id.search);
         SearchManager searchManager = (SearchManager) getSystemService(Context.SEARCH_SERVICE);
         SearchView searchView = (SearchView) menu.findItem(R.id.search).getActionView();
         searchView.setSearchableInfo(searchManager.getSearchableInfo(getComponentName()));
@@ -75,7 +76,7 @@ public class MainActivity extends BaseActivity implements MainMvpView, BottomNav
                 return false;
             }
         });
-        searchMenuItem.setOnActionExpandListener(new MenuItem.OnActionExpandListener() {
+        mSearchMenuItem.setOnActionExpandListener(new MenuItem.OnActionExpandListener() {
 
             @Override
             public boolean onMenuItemActionExpand(MenuItem item) {
@@ -124,7 +125,7 @@ public class MainActivity extends BaseActivity implements MainMvpView, BottomNav
 
     @Override
     public void showError() {
-
+        mHeroesListFragment.showError();
     }
 
     @Override
@@ -133,7 +134,19 @@ public class MainActivity extends BaseActivity implements MainMvpView, BottomNav
     }
 
     @Override
+    protected void onDestroy() {
+        mPresenter.detachView();
+        super.onDestroy();
+    }
+
+    @Override
     public <T> void setResult(T result) {
-        mHeroesListFragment.setSearchResult(result);
+        if (((CharactersResponse) result).getData().getCount() > 0) {
+            mHeroesListFragment.setSearchResult(result);
+        } else {
+            mSearchMenuItem.collapseActionView();
+            mHeroesListFragment.clearSearch();
+            showToast(getString(R.string.placeholder_no_results_label));
+        }
     }
 }

@@ -56,55 +56,64 @@
         android:id="@+id/nestedscrollview"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        android:paddingBottom="@dimen/vertical_small_margin"
         android:clipToPadding="false"
+
         app:layout_behavior="@string/appbar_scrolling_view_behavior">
 
-        <FrameLayout
+        <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="match_parent">
+            android:layout_height="match_parent"
+            android:orientation="vertical">
 
-            <ProgressBar
-                android:id="@+id/progressbar"
-                android:layout_width="50dp"
-                android:layout_height="50dp"
-                android:layout_gravity="center"
-                android:layout_marginTop="@dimen/vertical_small_margin" />
-
-            <LinearLayout
-                android:id="@+id/linearlayout_container"
+            <android.support.v7.widget.CardView
+                android:id="@+id/hero_detail_description_container"
                 android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:orientation="vertical"
-                android:visibility="gone">
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="@dimen/horizontal_margin"
+                android:layout_marginTop="@dimen/vertical_margin"
+                android:layout_marginRight="@dimen/horizontal_margin"
 
-                <android.support.v7.widget.CardView
+                app:cardElevation="5dp">
+
+                <TextView
+                    android:id="@+id/hero_detail_description_tv"
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:id="@+id/hero_detail_description_container"
-                    android:layout_margin="@dimen/horizontal_margin"
-                    app:cardElevation="5dp">
+                    android:layout_height="match_parent"
+                    android:padding="@dimen/padding_small"
+                    android:textAlignment="textStart"
+                    android:textSize="@dimen/text_body" />
+            </android.support.v7.widget.CardView>
 
-                    <TextView
-                        android:id="@+id/hero_detail_description_tv"
+
+            <FrameLayout
+                android:layout_width="match_parent"
+                android:layout_marginTop="@dimen/vertical_x_small_margin"
+                android:layout_height="match_parent">
+
+                <ProgressBar
+                    android:id="@+id/progressbar"
+                    android:layout_width="50dp"
+                    android:layout_height="50dp"
+                    android:layout_gravity="center"
+                    android:layout_marginTop="@dimen/vertical_small_margin"
+                    android:visibility="gone" />
+
+                <LinearLayout
+                    android:id="@+id/linearlayout_container"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:orientation="vertical">
+
+
+                    <android.support.v7.widget.RecyclerView
+                        android:id="@+id/recyclerview"
                         android:layout_width="match_parent"
-                        android:layout_height="match_parent"
-                        android:layout_marginLeft="@dimen/horizontal_small_margin"
-                        android:layout_marginRight="@dimen/horizontal_small_margin"
-                        android:layout_marginTop="@dimen/horizontal_small_margin"
-                        android:textAlignment="textStart"
-                        android:textSize="@dimen/text_body" />
-
-
-                </android.support.v7.widget.CardView>
-
-                <android.support.v7.widget.RecyclerView
-                    android:id="@+id/recyclerview"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginLeft="@dimen/horizontal_margin"
-                    android:layout_marginRight="@dimen/horizontal_margin"
-                    android:layout_marginTop="@dimen/vertical_margin" />
-            </LinearLayout>
-        </FrameLayout>
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="@dimen/horizontal_margin"
+                        android:layout_marginRight="@dimen/horizontal_margin" />
+                </LinearLayout>
+            </FrameLayout>
+        </LinearLayout>
     </android.support.v4.widget.NestedScrollView>
 </android.support.design.widget.CoordinatorLayout>

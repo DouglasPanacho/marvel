@@ -10,6 +10,7 @@ import io.reactivex.Observable;
 
 /**
  * Created by douglaspanacho on 01/12/2017.
+ * Used to get the data from the marvel api
  */
 
 public class HeroesDataManager {
