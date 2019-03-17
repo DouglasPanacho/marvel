@@ -11,6 +11,7 @@ import org.junit.Rule;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 
+
 import java.io.Serializable;
 
 import douglas.com.br.testemarvel.data.local.Hero;
