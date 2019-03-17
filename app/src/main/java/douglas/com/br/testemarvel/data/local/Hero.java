@@ -7,6 +7,7 @@ import android.arch.persistence.room.PrimaryKey;
  * Created by douglaspanacho on 03/12/2017.
  */
 
+
 @Entity(tableName = "heroes")
 public class Hero {
 
